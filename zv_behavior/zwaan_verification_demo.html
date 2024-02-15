@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jsPsych Tutorial</title>
+    <script src="https://unpkg.com/jspsych@7.2.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.0"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
+    <link href="https://unpkg.com/jspsych@7.2.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script src="trialInfo.js"></script>
+    <!-- <script src="trialInfoFull.js"></script> -->
+  </head>
+  <body></body>
+  <script>
+    
+
+
+    function saveData(name, data){
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({filedata: data}));
+    }
+
+    // // call the saveData function after the experiment is over
+    // jsPsych.init({
+    //    // code to define the experiment structure would go here...
+    //    on_finish: function(){ saveData(jsPsych.data.get().csv()); }
+    // });
+
+    /* initialize jsPsych */
+    var jsPsych = initJsPsych({
+      on_finish: function() {
+        var filename = "sp_verification_pilot_" + subject_id + ".csv";
+        saveData(filename, jsPsych.data.get().csv());
+        // jsPsych.data.displayData();
+        $(".jspsych-display-element").html("<div style='margin:2em;'> \
+        <p> You have now completed the first part of the study! Congratulations and thank you!\
+        Your results were recorded under the participant ID: <b>" + subject_id + "</b> \
+        <p><font size = 3><font color = red><b>Please, copy or write down your participant ID as you will have to use it in the next part of the study. If you don't use this ID and only provide your Prolific ID, we won't be able to record your response.</b></font></p> \
+        <p> Click on the link to move to the next part and to make sure your participation is recorded—you won't be awarded credit if you don't finish both parts. <a href='https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe' target='_blank'>https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe</a> <p></p>You will get the Prolific code for the participation at the end of the next part. <p> \
+        </p><p>If you have any questions, please contact Ana Chkhaidze at achkhaid@ucsd.edu\
+        <div>");
+      }
+    });
+
+    /* create timeline */
+    var timeline = [];
+
+    /* trial info datafile */
+
+    for (let i=0; i < 196; i++) {
+      var images = ['img/file1.png'];
+    }
+
+    //* pick a random list for the subject at the start of the experiment */
+      var list_assignment = jsPsych.randomization.sampleWithReplacement(['list_1', 'list_2', 'list_3', 'list_4'],1)[0];
+      /* generate a random subject ID with 8 characters */
+      var subject_id = jsPsych.randomization.randomID(8);
+      /* generate survey_code for Qualtrics */
+      var survey_code = subject_id;
+
+
+    generateTrials = function() {
+
+      // Add if statements for four different list assignments
+      // trialInfo = new Array(1).fill(trialInfoFull).flat();
+      if (list_assignment == "list_1") {
+        trialInfo = new Array(1).fill(trialList_1).flat();
+      } else if (list_assignment == "list_2") {
+        trialInfo = new Array(1).fill(trialList_2).flat();
+      } else if (list_assignment == "list_3") {
+        trialInfo = new Array(1).fill(trialList_3).flat();
+      } else if (list_assignment == "list_4") {
+        trialInfo = new Array(1).fill(trialList_4).flat();
+      }
+
+      var image_preload_list = [];
+      for (this_filename of trialInfo) {
+          filenameTarget = this_filename.target;
+          var this_filename_with_path = "Images/" + filenameTarget + ".jpg";
+          image_preload_list.push(this_filename_with_path);
+      };
+
+      var preload = {
+        type: jsPsychPreload,
+        auto_preload: true,
+        images: image_preload_list,
+      };
+      timeline.push(preload);
+
+      for (let i = 0; i < trialInfo.length; i++) {
+        // correct Response
+        trialInfo[i].correct_response = trialInfo[i].trialType == "experimental" ? "y" : "n"
+        trialInfo[i].trialIndex = trialInfo[i].trialIndex
+        trialInfo[i].trialType = trialInfo[i].trialType
+        trialInfo[i].isMatch = trialInfo[i].isMatch
+      }
+
+
+      trialInfo = jsPsych.randomization.shuffle(trialInfo);
+      return trialInfo
+
+    };
+
+    // this adds a property called 'subject' and a property called 'condition' to every trial
+    jsPsych.data.addProperties({
+      subject: subject_id,
+      survey_code: survey_code,
+      list: list_assignment
+    });
+
+    /* instructions trial */
+    
+
+    var introduction = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><b>Welcome to the experiment!</b></p><p>Thank you for your interest in participating in this study. On the next page, you will see a consent form. Please read the form and indicate if you agree to participate. The study consists of two parts. You will get the link for the second half at the end of this half. If you agree to participate, the whole study should take about 40 minutes. Please press the space bar to proceed.</p>',
+      choices: [" "],
+    };
+    timeline.push(introduction);
+
+    var enter_fullscreen = {
+      type: jsPsychFullscreen,
+      fullscreen_mode: true
+    }
+    timeline.push(enter_fullscreen);
+
+    var consent_intro = {
+      type: jsPsychImageKeyboardResponse,
+      stimulus: 'Images/consent1.jpg'
+    }
+    timeline.push(consent_intro);
+
+    var consent = {
+    type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p align="left"><b><i>Who is conducting the study, why you have been asked to participate, how you were selected, and what is the approximate number of participants in the study?</i></b>\
+      <br>Assistant Professor Anastasia Kiyonaga is conducting a research study to find out more about how people pay attention, make decisions, and remember information. You have been asked to participate in this study because you are a healthy volunteer and you may fit our study criteria, including: 18-45 years old, fluent reader and speaker of English, with normal vision (near, distance, color), and normal hearing. If you have a history of psychiatric or neurological disease, or have a current major medical illness we will not ask you to participate in this research. There will be approximately 120 participants in this study.\
+      <br><br><b><i>Why is this study being done?</i></b>\
+      <br>The purpose of this study is to understand how healthy people pay attention, make decisions, and remember information. We hope that this knowledge will be useful in understanding how normal cognition works, and in the future diagnosis and treatment of patients with disorders of these functions.\
+      <br><br><b><i>What will happen to you in this study?</i></b><br>If you agree to be in this study, the following will happen to you:<br>\
+      1) You will complete an online experimental task on a device with an internet browser<br>2)You are asked to complete the study on a device with stable internet access. The experiment may instruct you to take additional steps to set up your environment, depending on the specific task<br>3)The study session will last approximately 1 hour and no more than 2 hours<br>4)You should sit in front of a computer monitor or device screen and can position yourself comfortably<br>5)You will be shown images or words on the screen and you may hear sounds through the speaker<br>6) You will be asked to pay attention to, remember, and make decisions based on the different pictures or sounds<br>7) You will be asked to make manual responses via keyboard, mouse, or touchscreen presses, but they will require very little physical effort<br>8)You will be given frequent breaks to reduce fatigue. You can take additional breaks if you want<br>9)You may also be asked to complete a survey or questionnaire before, during, or after the experimental session\
+      <br><br><b><i>How much time will each study procedure take, what is your total time commitment, and how long will the study last?</i></b>\
+      <br>One study session will last from 30 minutes to an hour. The study duration can vary from person to person, depending on the length and frequency of your breaks. At the beginning of the session you will fill out basic electronic forms and receive task instructions for approximately 15 minutes. Then, you will perform the experimental task for approximately 45 minutes.<br>If you complete the session, you may be eligible for us to contact you about future opportunities to participate in other studies through our lab. However, participation in future studies is not required to complete this experiment.\
+      <br><br><b><i>What risks are associated with this study?</i></b>\
+      <br>Participation in this study may involve some added risks or discomforts. These include the following:<br>1.There are no significant risks associated with the experimental procedures. However, you may experience frustration from poor performance, boredom, or fatigue. You will be given frequent breaks throughout testing. The activity and concentration required in the online task is comparable to web browsing or playing simple, nonviolent video-games, like Tetris. If you are completing a survey, answers should be straightforward. \
+      <br>2. A potential for the loss of confidentiality is possible in all research; however, the researchers will take precautions to minimize these risks. Each person who takes part in the study will have their own code number. The code key will be kept in a locked file, and only members of the research team will have access to this information. Your name and other identifying information about you will not be used in any reports of the research. After this research is completed, we may save the demographic and performance data for future research by our research team or other collaborators. Demographic and performance data that has been stripped of any personally identifying information may be shared with public repositories to maximize the impact of this research. However, the same confidentiality precautions as described above will apply to future storage and use of the materials. All data will be stored securely for an indefinite period of time. Completed electronic forms will be encrypted and stored on Qualtrics’s private storage and/or on protected lab servers. De-identified responses and data from your performance on the online task will immediately be securely transferred from the experiment platform to our lab database. Research records will be kept confidential to the extent allowed by law. Research records may be reviewed by the UCSD Institutional Review Board. You may decline to have your data shared and/or stored at any time. \
+      <br><br>To minimize this risk, your IP address and location will not be recorded by the lab or third-parties at any point during the online experiment. The study may include several tests for data integrity to protect the responses from including malicious actors (e.g., “bots”). These simple tests will be used to ensure the exclusion of bots and will require minimal effort. At any phase of the experiment, please complete all fields labeled as “required.”  Please do not share any unique web links provided by experimenters. Your specific links will be deactivated at the conclusion of the session. \
+      <br>Because this is a research study, there may also be some unknown risks that are currently unforeseeable. You will be informed of any significant new findings.\
+      <br><br><b><i>What are the alternatives to participating in this study?</i></b>\
+      <br>You may choose not to participate in the study at any time without penalty. Therefore, the alternative to participation is opting not to participate. For those who are seeking course credit, an alternate research requirement, designated by the course instructor, is available (typically, it involves reading and summarizing a research article published in a major psychology journal). This alternative is estimated to be equivalent, in terms of time and effort, to completing the study. Additionally, you may choose to participate in studies available on SONA through other labs, as an alternative to this one, and may decline to participate in any particular SONA study at any time without penalty.\
+      <br><br><b><i>What benefits can be reasonably expected?</i></b>\
+      <br>It is important for you to understand that you will not directly benefit from this research. This research is not related to any medical testing or treatment you may be receiving. The investigator, however, may learn more about how normal cognition works and how psychological disorders may affect attention, memory, and decision-making. Society may benefit from this knowledge, and we hope that the knowledge will aid in the future diagnosis and treatment of patients with disorders of the studied functions.\
+      <br><br><b><i>Can you choose to not participate or withdraw from the study without penalty or loss of benefits?</i></b>\
+      <br>Participation in this research is entirely voluntary. You may refuse to participate, withdraw, or refuse to answer specific questions in an interview or on a questionnaire at any time without penalty. However, if you refuse to respond to any parts of the study, you may not be able to continue participating. You will still be compensated for any time spent on the study, either through payment or course credit. If you decide that you no longer wish to continue in this study, you will still be required to sign the payment receipt (if you are participating for payment). If you withdraw from the study, any performance or demographic data that we have collected will be stored securely, separated from any personal identifying information, but will not be included in any reports stemming from the study. If you decide you no longer wish to continue with this study session, you may not be able to return for a future session in this study.<br>You will be told if any important new information is found during the course of this study that may affect your wanting to continue.\
+      <br><br><b><i>Can you be withdrawn from the study without your consent?</i></b>\
+      <br>The PI may remove you from the study without your consent if the PI feels it is in your best interest or the best interest of the study. You may also be withdrawn from the study if you do not follow the instructions given to you by the study personnel.\
+      <br><br><b><i>Will you be compensated for participating in this study?</i></b>\
+      <br>You may receive course credit or monetary compensation for participating in this study. Course credit is only available for participation through the UC San Diego Psychology Department Subject Pool via the SONA website. Course credit is 0.5 credits for every 30 minutes of participation, with a minimum of 0.5 credits for studies that last less than 30 minutes. If you are participating for payment, rates may differ based on the experiment website’s standards. You will receive between $8-$15 per hour in compensation for your time and effort. Even if you do not complete the study, you will be credited/paid based on the time you participated.\
+      <br><br><b><i>Are there any costs associated with participating in this study?</i></b>\
+      <br>There will be no cost to you for participating in this study.\
+      <br><br><b><i>Who can you call if you have questions?</i></b>\
+      <br>Anastasia Kiyonaga and/or Ana Chkhaidze has explained this study to you and answered your questions. If you have other questions or research-related problems, you may reach Anastasia Kiyonaga at 858-246-4909 and kiyonagalab@ucsd.edu.<br><br>You may call the Human Research Protections Program Office at 858-246-HRPP (858-246-4777) to inquire about your rights as a research participant or to report research-related problems.\
+      <br><br><b><i>Your Signature and Consent</i></b>\
+      <br>You have received a copy of this consent document. You agree to participate.<br><br><b>By pressing the space bar, you agree to waive documented consent and will not be asked to provide a signature.</b></p>\
+      ',
+      choices: [" "],
+    };
+    timeline.push(consent);
+
+    var instructions = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><b>Instructions!</b><br><br>In each trial, you will see a sentence followed by an image. When you have read and understood the sentence press the space bar. For each image, please indicate whether the object depicted in the image was mentioned in the sentence preceding it. </p>Type <b>Y</b> for yes or <b>N</b> for No.<br>Please, make the decisions about the pictures as quickly as possible. Your reaction times will be measured.</p><p>Press the space bar to begin the study.</p>',
+      choices: [" "],
+  };
+  timeline.push(instructions);
+
+    var fixation = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<div style="font-size:60px;">+</div>',
+      choices: "NO_KEYS",
+      trial_duration: 500,
+      data: {
+        task: 'fixation'
+      }
+    };
+
+    var cue = {
+      type: jsPsychHtmlKeyboardResponse,
+      // stimulus: jsPsych.timelineVariable('cue')
+      stimulus: function() {
+        var stim = jsPsych.timelineVariable('cue');
+        return stim;
+      },
+      choices: [" "],
+      post_trial_gap: function(){
+        let delayVals = 250
+        return delayVals;
+      },
+      data: {
+        task: 'cue',
+        trialIndex: jsPsych.timelineVariable('trialIndex'),
+        trialType: jsPsych.timelineVariable('trialType'),
+        // shapeSentence: jspsych.timelineVariable('shapeSentence'),
+        // objectSentence: jspsych.timelineVariable('objectSentence'),
+        isMatch: jsPsych.timelineVariable('isMatch')
+      },
+    };
+
+    var target = {
+      type: jsPsychHtmlKeyboardResponse,
+
+      stimulus: function() {
+        // let targetType = jsPsych.timelineVariable('targetType');
+        let target = jsPsych.timelineVariable('target');
+
+          let path = `Images/${target}.jpg`;
+          let targ = `<img src="${path}"/>`;
+          console.log(targ)
+          return targ
+      },
+
+      choices: ['y', 'n'],
+      data: {
+        task: 'response',
+        correct_response: jsPsych.timelineVariable('correct_response'),
+        trialIndex: jsPsych.timelineVariable('trialIndex'),
+        trialType: jsPsych.timelineVariable('trialType'),
+        // shapeImage: jspsych.timelineVariable('shapeImage'),
+        // objectImage: jspsych.timelineVariable('objectImage'),
+        isMatch: jsPsych.timelineVariable('isMatch')
+      },
+      on_finish: function(data) {
+        if(jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)){
+          data.hit = true;
+        } else { data.hit = false; } }
+    };
+
+    var test_procedure = {
+      timeline: [fixation, cue, target],
+      timeline_variables: generateTrials(),
+      //repetitions: 2
+    };
+    timeline.push(test_procedure);
+
+    var exit_fullscreen = {
+      type: jsPsychFullscreen,
+      fullscreen_mode: false,
+      delay_after: 0
+    }
+    timeline.push(exit_fullscreen);
+
+    /* start the experiment */
+    jsPsych.run(timeline);
+
+  </script>
+</html>

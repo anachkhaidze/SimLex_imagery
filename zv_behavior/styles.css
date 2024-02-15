@@ -1,0 +1,221 @@
+body {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 140%;
+    text-align: center;
+}
+
+button {
+    margin: 0 auto;
+    display: block;
+}
+
+img {
+    vertical-align: middle;
+}
+
+.bttn {
+    font-size: 25px;
+    padding: 16px;
+    border: 2px solid #2e2e2e;
+}
+
+.bttn:hover {
+    color: white;
+    background-color: #2e2e2e;
+}
+
+.texts {
+    max-width: 38em;
+    min-width: 15em;
+    font-size: 110%;
+    line-height: 150%;
+    text-align: left;
+    text-indent: 0;
+    padding: 0 0.5em;
+    display: inline-block;
+    margin: auto;
+}
+
+.ch_chars {
+    padding: 25px 0 50px 0;
+    /*top right bottom left*/
+    margin: auto;
+    display: block;
+}
+
+input[type=radio] {
+    width: 15px;
+    height: 15px;
+}
+
+input[type=radio]+label:hover, input[type=radio]:hover {
+    cursor: pointer;
+}
+
+input[type="radio"]:checked+label {
+    font-weight: bold;
+}
+
+#div_lex_intro, #div_lex_main, #div_lexch_main, #div_end, #div_feed, .lg_en, .lg_de, .lg_nl, .lg_ch, .lg_ch2 {
+    display: none;
+}
+
+#div_feed p, #div_feed div {
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+#div_feed button {
+    margin: 0 2em 1em 2em;
+    font-size: 90%;
+    padding: 8px 16px;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#full_data_disp {
+    white-space: pre-wrap;
+    font-size: initial;
+    line-height: initial;
+    padding: 0.8em 2.0em 0.8em 1.4em;
+    background-color: #f3f3f3;
+    border: 1px solid grey;
+}
+
+.lg_ch {
+    font-size: 21px;
+}
+
+#ch_firstscreen, #div_lexch_main {
+    max-width: 805px;
+}
+
+#example_screen {
+    border: 2px solid black;
+    padding: 0 1em;
+}
+
+#lexstim {
+    font-size: 160%;
+    color: #000000;
+    text-align: center;
+    font-weight: bolder;
+    font-style: italic;
+    position: fixed;
+    top: 41%;
+    left: 50%;
+    margin: 0 -50% 0 0;
+    transform: translate(-50%, -50%);
+}
+
+.lexresp_left {
+    left: 43%;
+    background-color: #ff0000;
+}
+
+.lexresp_right {
+    left: 57%;
+    background-color: #00ff00;
+}
+
+.lexresp_buttons {
+    font-size: 3.5vw;
+    top: 65%;
+    transform: translate(-50%, -50%);
+    color: #000000;
+    text-align: center;
+    position: fixed;
+    height: 8vw;
+    width: 12vw;
+}
+
+.lists {
+    list-style-type: none;
+    columns: 2;
+    -webkit-column-rule: 1px solid #bfbfbf;
+    -moz-column-rule: 1px solid #bfbfbf;
+    column-rule: 1px solid #bfbfbf;
+}
+
+hr {
+    margin-top: 0;
+    color: #bfbfbf;
+}
+
+/* checkboxing */
+.checkbox input[type="checkbox"] {
+    opacity: 0;
+}
+
+.checkbox label {
+    position: relative;
+    display: inline-block;
+    /*16px width of fake checkbox + 9px distance between fake checkbox and text*/
+    padding-left: 28px;
+}
+
+.checkbox label::before,
+.checkbox label::after {
+    position: absolute;
+    content: "";
+    /*Needed for the line-height to take effect*/
+    display: inline-block;
+}
+
+/*Outer box of the fake checkbox*/
+.checkbox label::before {
+    height: 16px;
+    width: 16px;
+    border: 1px solid;
+    left: 0px;
+    /*(24px line-height - 16px height of fake checkbox) / 2 - 1px for the border
+     *to vertically center it. So px3 originally
+     */
+    top: 8px;
+}
+
+/*Checkmark of the fake checkbox*/
+.checkbox label::after {
+    height: 5px;
+    width: 9px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-50deg);
+    left: 4px;
+    top: 12px;
+    /*7 originally*/
+}
+
+/*Hide the checkmark by default*/
+.checkbox input[type="checkbox"]+label::before {
+    background: #fff;
+}
+
+/*Unhide on the checked state*/
+.checkbox input[type="checkbox"]:checked+label::before {
+    background: #222;
+}
+
+/*hovers*/
+.chover input[type="checkbox"]+label:hover::before {
+    background: #ddd;
+}
+
+.chover input[type="checkbox"]:checked+label:hover::before {
+    background: #555;
+}
+
+/*focus*/
+.checkbox input[type="checkbox"]:focus+label::before {
+    outline: rgb(59, 153, 252) auto 5px;
+}
