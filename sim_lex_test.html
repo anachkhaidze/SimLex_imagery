@@ -18,6 +18,55 @@
 
   
   <script>
+  
+
+    // initialize jsPsych 
+    var jsPsych = initJsPsych({
+      on_finish: function() {
+        // Get the data in JSON format
+        var jsonData = jsPsych.data.get().json(true);
+
+        // Create a <pre> element to display the JSON data in a preformatted way
+        var pre = document.createElement('pre');
+        pre.style.maxHeight = "500px";
+        pre.style.overflowY = "scroll";
+        pre.textContent = jsonData;
+
+        // Add a message or instructions for the JSON data
+        var message = document.createElement('p');
+        message.textContent = "Experiment data (JSON):";
+
+        // Append message and JSON data to the body
+        document.body.appendChild(message);
+        document.body.appendChild(pre);
+
+        // Create and append the completion message
+        var completionDiv = document.createElement('div');
+        completionDiv.style.margin = "2em";
+        completionDiv.innerHTML = "<p>You have now completed the first part of the study! Congratulations and thank you!" +
+            "Your results were recorded under the participant ID: <b>" + subject_id + "</b>" +
+            "<p><font size='3'><font color='red'><b>Please, copy or write down your participant ID as you will have to use it in the next part of the study. If you don't use this ID and only provide your Prolific ID, we won't be able to record your response.</b></font></p>" +
+            "<p>Click on the link to move to the next part and to make sure your participation is recorded—you won't be awarded credit if you don't finish both parts. <a href='https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe' target='_blank'>https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe</a></p>" +
+            "<p>You will get the Prolific code for the participation at the end of the next part.</p>" +
+            "<p>If you have any questions, please contact Ana Chkhaidze at achkhaid@ucsd.edu</p>";
+
+        // Append the completion message to the body
+        document.body.appendChild(completionDiv);
+      }
+    });
+    /* generate a random subject ID with 8 characters */
+    var subject_id = jsPsych.randomization.randomID(8);
+
+
+    // create timeline 
+    var timeline = [];
+
+
+    // record the condition assignment in the jsPsych data
+    // this adds a property called 'subject' and a property called 'condition' to every trial
+    jsPsych.data.addProperties({
+      subject: subject_id,
+    });
 
 
     //placeholder fucntion for testing slider
@@ -25,15 +74,9 @@
 
       //fill with all pair 
       pair = ['butter', 'toast']
-      return pair;
+      // return pair;
+      return pair.join(' / '); // Join the pair to create a single string
     }
-  
-
-    // initialize jsPsych 
-    var jsPsych = initJsPsych();
-
-    // create timeline 
-    var timeline = [];
 
     // welcome message with a mock 
     var welcome = {
@@ -52,25 +95,25 @@
      // consent message 
      var consent = {
       type: jsPsychHtmlButtonResponse,
-      stimulus: '<p style="font-size:48px; color:red;"></p>',
+      stimulus: "<p> Have you read the terms and conditions?</p>",
       choices: ['Yes'],
-      stimulus: "<p> Have you read the terms and conditions?</p>"
     };
     timeline.push(consent);
 
-    //example trrial 
+
+    //example trial 
     var trial = {
-      
       //how the slider works with parameters
       type: jsPsychHtmlSliderResponse,
       stimulus: generate_stim(),
+      labels: ['0', '1', '2', '3', '4', '5', '6'],
+      min: 0,
+      max: 6,
+      // start is not working properly, we need the starting point to be at 3, rather than 6
+      start: 3,
       step: 1,
-      require_movement: true,
-      labels: ['0', '1', '2', '3', '4', '5', '6']
-
+      require_movement: true
     };
-
-
     timeline.push(trial);
     
     /* start the experiment */
