@@ -70,11 +70,11 @@
 
 
     //placeholder fucntion for testing slider
-    function generate_stim(){
+    function generate_stim(pair_1, pair_2){
 
 
       //list names are word1 and word2
-      pair = ['butter', 'toast']
+      pair = [pair_1, pair_2];
       // return pair;
       return pair.join(' / '); // Join the pair to create a single string
     }
@@ -102,8 +102,10 @@
     timeline.push(consent);
 
 
+    
+
     //example trial 
-    var trial = {
+    var pair_trials = {
       //how the slider works with parameters
       type: jsPsychHtmlSliderResponse,
       stimulus: generate_stim(),
@@ -112,9 +114,18 @@
       max: 6,
       slider_start: 3,
       step: 1,
-      require_movement: true
+      require_movement: true,
+
+      //using a nested trials will add more later
+      timeline:[
+       
+        {stimulus: generate_stim(word1[0], word2[0])},
+        {stimulus: generate_stim(word1[1], word2[1])},
+        {stimulus: generate_stim(word1[2], word2[2])}
+      ]
+          
     };
-    timeline.push(trial);
+    timeline.push(pair_trials);
     
     /* start the experiment */
     jsPsych.run(timeline);
