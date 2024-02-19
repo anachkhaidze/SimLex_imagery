@@ -11,14 +11,14 @@
     <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.3"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.3"></script>
-
+    <script src="word_pairs.js"></script>
     
   </head>
   <body></body>
 
   
   <script>
-  
+    
 
     // initialize jsPsych 
     var jsPsych = initJsPsych({
@@ -72,7 +72,8 @@
     //placeholder fucntion for testing slider
     function generate_stim(){
 
-      //fill with all pair 
+
+      //list names are word1 and word2
       pair = ['butter', 'toast']
       // return pair;
       return pair.join(' / '); // Join the pair to create a single string
