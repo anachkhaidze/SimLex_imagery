@@ -169,6 +169,7 @@
         },
         prompt: '<p>Please fill all sliders before proceeding to the next page.</p>',
         on_load : function (data) {
+          document.getElementById('next-button').disabled = true; 
           var sliders = document.querySelectorAll('.slider-input');
           sliders.forEach(function (slider) {
             slider.addEventListener('change', function () {
@@ -207,21 +208,6 @@
               });
             });
             // make the button unclickable till all sliders are filled
-            document.getElementById('next-button').disabled = true;
-            var sliders = document.querySelectorAll('.slider-input');
-            sliders.forEach(function (slider) {
-              slider.addEventListener('change', function () {
-                var allFilled = true;
-                sliders.forEach(function (slider) {
-                  if (slider.value === "") {
-                    allFilled = false;
-                  }
-                });
-                if (allFilled) {
-                  document.getElementById('next-button').disabled = false;
-                }
-              });
-            });
             document.getElementById('next-button').addEventListener('click', function () {
               jsPsych.finishTrial();
             });
