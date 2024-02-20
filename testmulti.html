@@ -45,6 +45,10 @@
         color: white;
         cursor: pointer;
       }
+      #next-button:enabled {
+      background-color: #2980b9; /* Enabled state */
+      opacity: 1;
+    }
     </style>
   </head>
   <body>
@@ -209,7 +213,7 @@
             });
             // make the button unclickable till all sliders are filled
             document.getElementById('next-button').addEventListener('click', function () {
-              jsPsych.finishTrial();
+                jsPsych.finishTrial();
             });
         }
     };
