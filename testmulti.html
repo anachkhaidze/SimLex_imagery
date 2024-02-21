@@ -83,10 +83,12 @@
           const latestDocuments = getLatestDocuments(jsonData);
           console.log(latestDocuments);
           var pre = document.createElement('pre');
-          pre.style.maxHeight = "500px";
+          // pre.style.maxHeight = "500px";
           pre.style.overflowY = "scroll";
-          pre.textContent = JSON.stringify(latestDocuments);
+          pre.style.textAlign = "left";
+          pre.textContent = JSON.stringify(latestDocuments, null, 2);
           var message = document.createElement('p');
+          message.style.textAlign = "left";
           message.textContent = "Experiment data (JSON):";
           document.body.appendChild(message);
           document.body.appendChild(pre);
@@ -113,9 +115,14 @@
       for (let i = 0; i < 10; i++) {
         trialInfo[i].word1 = trialInfo[i].word1
         trialInfo[i].word2 = trialInfo[i].word2
+        trialInfo[i].POS = trialInfo[i].POS
         trialInfo[i].SimLex999 = trialInfo[i].SimLex999
-        trialInfo[i].list = trialInfo[i].sd_simLex
+        trialInfo[i].conc_word1 = trialInfo[i].conc_word1
+        trialInfo[i].conc_word2 = trialInfo[i].conc_word2
+        trialInfo[i].concQ = trialInfo[i].concQ
+        trialInfo[i].assoc_usf = trialInfo[i].assoc_usf
         trialInfo[i].SimAssoc333 = trialInfo[i].SimAssoc333
+        trialInfo[i].sd_simLex = trialInfo[i].sd_simLex
         trialInfo[i].stim = trialInfo[i].stim
         trialInfo[i].stimulusID = trialInfo[i].stimulusID
         trialInfo[i].list = trialInfo[i].list
@@ -172,6 +179,7 @@
                   data-assocusf=${trialData.assoc_usf}
                   data-stim=${trialData.stim}
                   data-simasoc=${trialData.SimAssoc333}
+                  data-sdSimLex=${trialData.sd_simLex}
                   data-time=""
                >
                <span class="slider-value">3</span> <!-- Display initial slider value -->
@@ -212,6 +220,7 @@
                     assocusf: this.dataset.assocusf,
                     stim: this.dataset.stim,
                     simasoc: this.dataset.simasoc,
+                    sdSimLex: this.dataset.sdSimLex,
                     time: new Date().getTime(),
                     subject: subject_id,
                     list: list_assignment
