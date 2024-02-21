@@ -25,6 +25,13 @@
         margin-left: auto;  /* These two lines will */
         margin-right: auto; /* center the container */
       }
+
+      
+
+      .header{
+
+        text-align: left;
+      }
       .slider {
         min-width: 150px; /* Adjust the min-width as needed to fit the largest label */
         text-align: right;
@@ -33,6 +40,10 @@
         text-align: center; /* Center the text label */
         margin-right: 10px; /* Add some space between label and slider input */
       }
+
+      .math-inline{
+        padding-right: 15px; /* Added more space between pairs and slider*/
+      }
       
       /* Ensure all sliders have the same width */
       .slider-input {
@@ -40,6 +51,7 @@
         opacity: 0.5
       }
 
+    
       .slider-input.active {
         opacity: 1; /* Active opacity */
       }
@@ -59,6 +71,32 @@
       background-color: #2980b9; /* Enabled state */
       opacity: 1;
     }
+
+    /* Container for the less and more similar text */
+    .similar-container{
+      display: flex; 
+      justify-content: space-between;
+    }
+
+    /* Adjusting nums to match with the slider */
+   .slider-nums{
+      display: flex; 
+      margin-left: 50%;
+      gap: 37px;
+      
+    }
+
+    /* adjusting less and more simlar to be in correct position */
+    #left-similar{
+      padding-left: 50%;
+      text-align: center;
+    }
+
+    #right-similar{
+      text-align: right;
+    }
+
+
     </style>
   </head>
   <body>
@@ -154,6 +192,29 @@
       stimulus: function() {
         var htmlContent = '<div class="slider-container">';
         var pageEntry = jsPsych.timelineVariable('pageData');
+
+        htmlContent += `<div class="header">
+            
+            <p>Rate the following pairs according to how similar they are by moving the slider</p>
+            <div class ="similar-container">
+              <p id='left-similar'>Less Similar</p>
+              <p id='right-similar'>More Similar</p>
+            </div>
+            `
+          
+          htmlContent += `<div class = "graph-bg">`
+
+          htmlContent += `<div class="slider-nums">
+              <p>0</p>
+              <p>1</p>
+              <p>2</p>
+              <p>3</p>
+              <p>4</p>
+              <p>5</p>
+              <p>6</p>
+            </div>
+          `
+
         for (var i = 0; i < pageEntry.length; i++) {
           var trialData = pageEntry[i];
           htmlContent += `
