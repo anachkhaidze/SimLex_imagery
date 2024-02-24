@@ -103,7 +103,7 @@ for i in range(11):
             'SimAssoc333': '',
             'sd_simLex': '',
             'stimulusID': '',
-            'stim': '',
+            'stim': f'{word}/{word}',
             'lanc_motor_sim': '',
             'lanc_sensory_sim': '',
             'lanc_sensorymotor_sim': '',
