@@ -1,11 +1,7 @@
-[] 
-display 5 word pairs per page: each with its own slider response; 
-Make sure response is saved for each word pair. 
-Ideally, we want to have one row corresponding to one word pair in our dataset. 
-Unfortunately, jsPsych doesn't seem to have support for presenting multiple stimuli on the same screen. 
-But should be possible to do using javascript and css.
-
-[] center the slider at 3 at the beginning of each trial
-[] some aesthetical changes to make our experiment look like the one from the SimLex paper
-[] add consent form in the form of pdf
-[] add proper instructions
+[] display 5 word pairs per page: each with its own slider response; Make sure response is saved for each word pair. Ideally, we want to have one row corresponding to one word pair in our dataset. Unfortunately, jsPsych doesn't seem to have support for presenting multiple stimuli on the same screen. But should be possible to do using javascript and css.
+[x] center the slider at 3 at the beginning of each trial
+[] some aesthetic changes to make our experiment look like the one from the SimLex paper
+[x] add consent form
+[x] add proper instructions
+[x] add welcome
+[x] add fullscreen
