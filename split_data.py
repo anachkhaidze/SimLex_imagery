@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 from scipy.spatial import distance
-
 glove = {}
+
 with open("D:\kiyonaga\glove.6B.300d.txt", 'r', encoding='utf-8') as f:
     for line in f:
         values = line.split()
@@ -35,7 +35,8 @@ nouns_indices = np.random.choice(nouns, 666, replace=False)
 adjs_indices = np.random.choice(adjs, 111, replace=False)
 verbs_indices = np.random.choice(verbs, 222, replace=False)
 
-# ignoring total of 9 words (what do we do with them?)
+missed_indices = np.concatenate((nouns_indices[-6:], adjs_indices[-1:], verbs_indices[-2:]), axis=0)
+
 nouns_indices = nouns_indices[:-6]
 adjs_indices = adjs_indices[:-1]
 verbs_indices = verbs_indices[:-2]
@@ -51,9 +52,13 @@ for i in range(11):
 samples_sets = np.array(samples_sets)
 
 experiment_word_pairs = {}
+number_of_duplicate_pairs = 3
+number_of_force_checks = 2
+    
 for i in range(11):
     current_experiment = []
-    for index in samples_sets[i]:
+    experiment_indices = np.concatenate((samples_sets[i], missed_indices))
+    for index in experiment_indices:
         word1 = data.loc[index, 'word1']
         word2 = data.loc[index, 'word2']
         word1_lanc_motor = np.array(lancaster_motor.loc[lancaster_motor['Word'] == word1].drop('Word', axis=1).values[0])
@@ -82,14 +87,10 @@ for i in range(11):
             'glove_sim': distance.cosine(glove[word1], glove[word2]).round(3),
             'attentionCheck': 0
         })
-    experiment_word_pairs[f'List {i}'] = current_experiment
-
-for i in range(11):
-    indices = samples_sets[i]
-    random_indices = np.random.choice(indices, 10, replace=False)
+    random_indices = np.random.choice(experiment_indices, number_of_duplicate_pairs, replace=False)
     for index in random_indices:
         word = np.random.choice([data.loc[index, 'word1'], data.loc[index, 'word2']], 1)[0]
-        experiment_word_pairs[f'List {i}'].append({
+        current_experiment.append({
             'word1': word,
             'word2': word,
             'stimulusID': data.loc[index, 'stimulusID'],
@@ -109,8 +110,32 @@ for i in range(11):
             'lanc_sensorymotor_sim': '',
             'glove_sim': ''
         })
+    random_indices = np.random.choice(experiment_indices, number_of_force_checks, replace=False)
+    for index in random_indices:
+        random_number = np.random.choice([1, 2, 3, 4, 5, 6], 1)[0]
+        current_experiment.append({
+            'word1': 'force',
+            'word2': 'check',
+            'stimulusID': data.loc[index, 'stimulusID'],
+            'attentionCheck': '1',
+            'POS': '',
+            'SimLex999': '',
+            'conc_word1': '',
+            'conc_word2': '',
+            'concQ': '',
+            'assoc_usf': '',
+            'SimAssoc333': '',
+            'sd_simLex': '',
+            'stimulusID': '',
+            'stim': f'Choose {random_number}',
+            'lanc_motor_sim': '',
+            'lanc_sensory_sim': '',
+            'lanc_sensorymotor_sim': '',
+            'glove_sim': ''
+        })
+    experiment_word_pairs[f'List {i}'] = current_experiment
 
 with open('D:\\kiyonaga\\SimLex_imagery\\SimLex_dataset\\allTrials.js', 'w', encoding='utf-8') as f:
     f.write('var simLexData = ')
     f.write(str(experiment_word_pairs))
-
+    f.write(';')

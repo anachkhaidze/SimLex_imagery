@@ -199,8 +199,8 @@
     pageWiseTrials = function() {
       trialInfo = generateTrials();
       var trialIndex = 0;
-      var trialsPerPage = 10;
-      var numberOfPages = Math.ceil(100/ trialsPerPage);
+      var trialsPerPage = 8;
+      var numberOfPages = Math.ceil(104/ trialsPerPage);
       var trialsPages = [];
       for (var i = 0; i < numberOfPages; i++) {
         trialsPages.push({'pageData': trialInfo.slice(i * trialsPerPage, (i + 1) * trialsPerPage)});
