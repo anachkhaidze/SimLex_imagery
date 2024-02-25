@@ -109,14 +109,14 @@
     <div id="slider-container"></div>
 
   <script>
-    // function saveData(name, data){
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
-    //   xhr.setRequestHeader('Content-Type', 'application/json');
-    //   // xhr.send(JSON.stringify({filedata: data}));
-    //   // // Sending the data as JSON, including the filename you wish to use.
-    //   xhr.send(JSON.stringify({filename: name, filedata: data}));
-    // }
+     function saveData(name, data){
+       var xhr = new XMLHttpRequest();
+       xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
+       xhr.setRequestHeader('Content-Type', 'application/json');
+       xhr.send(JSON.stringify({filedata: data}));
+        // Sending the data as JSON, including the filename you wish to use.
+       xhr.send(JSON.stringify({filename: name, filedata: data}));
+     }
 
     function getLatestDocuments(jsonData) {
         const data = JSON.parse(jsonData);
@@ -134,9 +134,10 @@
         on_finish: function() {
           var jsonData = jsPsych.data.get().json(true);
           const latestDocuments = getLatestDocuments(jsonData);
-          var filename = "simLex_" + subject_id + ".json";
-          // saveData(filename, latestDocuments);
           console.log(latestDocuments.length);
+          var filename = "simLex_" + subject_id + ".json";
+         // saveData(filename, latestDocuments);
+          console.log(latestDocuments);
           var pre = document.createElement('pre');
           pre.style.maxHeight = "500px";
           pre.style.overflowY = "scroll";
