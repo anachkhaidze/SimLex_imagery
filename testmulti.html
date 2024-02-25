@@ -125,10 +125,14 @@
           const latestDocuments = getLatestDocuments(jsonData);
           console.log(latestDocuments.length);
           var pre = document.createElement('pre');
-          pre.style.maxHeight = "500px";
+          // pre.style.maxHeight = "500px";
+          // pre.style.overflowY = "scroll";
+          // pre.textContent = JSON.stringify(latestDocuments);
           pre.style.overflowY = "scroll";
-          pre.textContent = JSON.stringify(latestDocuments);
+          pre.style.textAlign = "left";
+          pre.textContent = JSON.stringify(latestDocuments, null, 2);
           var message = document.createElement('p');
+          message.style.textAlign = "left";
           message.textContent = "Experiment data (JSON):";
           document.body.appendChild(message);
           document.body.appendChild(pre);
