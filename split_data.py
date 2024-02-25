@@ -90,10 +90,11 @@ for i in range(11):
     random_indices = np.random.choice(experiment_indices, number_of_duplicate_pairs, replace=False)
     for index in random_indices:
         word = np.random.choice([data.loc[index, 'word1'], data.loc[index, 'word2']], 1)[0]
+        random_stimulus_id = np.random.choice(range(1000, 2000), 1)[0]
         current_experiment.append({
             'word1': word,
             'word2': word,
-            'stimulusID': data.loc[index, 'stimulusID'],
+            'stimulusID': 1000 + data.loc[index, 'stimulusID'],
             'attentionCheck': '1',
             'POS': '',
             'SimLex999': '',
@@ -103,7 +104,6 @@ for i in range(11):
             'assoc_usf': '',
             'SimAssoc333': '',
             'sd_simLex': '',
-            'stimulusID': '',
             'stim': f'{word}/{word}',
             'lanc_motor_sim': '',
             'lanc_sensory_sim': '',
@@ -113,10 +113,11 @@ for i in range(11):
     random_indices = np.random.choice(experiment_indices, number_of_force_checks, replace=False)
     for index in random_indices:
         random_number = np.random.choice([1, 2, 3, 4, 5, 6], 1)[0]
+        random_stimulus_id = np.random.choice(range(2001, 5000), 1)[0]
         current_experiment.append({
             'word1': 'force',
             'word2': 'check',
-            'stimulusID': data.loc[index, 'stimulusID'],
+            'stimulusID': 2000 + data.loc[index, 'stimulusID'],
             'attentionCheck': '1',
             'POS': '',
             'SimLex999': '',
@@ -126,7 +127,6 @@ for i in range(11):
             'assoc_usf': '',
             'SimAssoc333': '',
             'sd_simLex': '',
-            'stimulusID': '',
             'stim': f'Choose {random_number}',
             'lanc_motor_sim': '',
             'lanc_sensory_sim': '',
@@ -134,7 +134,7 @@ for i in range(11):
             'glove_sim': ''
         })
     experiment_word_pairs[f'List {i}'] = current_experiment
-
+        
 with open('D:\\kiyonaga\\SimLex_imagery\\SimLex_dataset\\allTrials.js', 'w', encoding='utf-8') as f:
     f.write('var simLexData = ')
     f.write(str(experiment_word_pairs))
