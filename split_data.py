@@ -95,20 +95,20 @@ for i in range(11):
             'word1': word,
             'word2': word,
             'stimulusID': 1000 + data.loc[index, 'stimulusID'],
-            'attentionCheck': '1',
-            'POS': '',
-            'SimLex999': '',
-            'conc_word1': '',
-            'conc_word2': '',
-            'concQ': '',
-            'assoc_usf': '',
-            'SimAssoc333': '',
-            'sd_simLex': '',
+            'attentionCheck': 1,
+            'POS': 'C',
+            'SimLex999': 0,
+            'conc_word1': 0,
+            'conc_word2': 0,
+            'concQ': 0,
+            'assoc_usf': 0,
+            'SimAssoc333': 0,
+            'sd_simLex': 0,
             'stim': f'{word}/{word}',
-            'lanc_motor_sim': '',
-            'lanc_sensory_sim': '',
-            'lanc_sensorymotor_sim': '',
-            'glove_sim': ''
+            'lanc_motor_sim': 0,
+            'lanc_sensory_sim': 0,
+            'lanc_sensorymotor_sim': 0,
+            'glove_sim': 0
         })
     random_indices = np.random.choice(experiment_indices, number_of_force_checks, replace=False)
     for index in random_indices:
@@ -118,23 +118,23 @@ for i in range(11):
             'word1': 'force',
             'word2': 'check',
             'stimulusID': 2000 + data.loc[index, 'stimulusID'],
-            'attentionCheck': '1',
-            'POS': '',
-            'SimLex999': '',
-            'conc_word1': '',
-            'conc_word2': '',
-            'concQ': '',
-            'assoc_usf': '',
-            'SimAssoc333': '',
-            'sd_simLex': '',
-            'stim': f'Choose {random_number}',
-            'lanc_motor_sim': '',
-            'lanc_sensory_sim': '',
-            'lanc_sensorymotor_sim': '',
-            'glove_sim': ''
+            'attentionCheck': 1,
+            'POS': 'C',
+            'SimLex999': 1000,
+            'conc_word1': 0,
+            'conc_word2': 0,
+            'concQ': 0,
+            'assoc_usf': 0,
+            'SimAssoc333': 0,
+            'sd_simLex': 0,
+            'stim': f'Choose{random_number}',
+            'lanc_motor_sim': 0,
+            'lanc_sensory_sim': 0,
+            'lanc_sensorymotor_sim': 0,
+            'glove_sim': 0
         })
     experiment_word_pairs[f'List {i}'] = current_experiment
-        
+                
 with open('D:\\kiyonaga\\SimLex_imagery\\SimLex_dataset\\allTrials.js', 'w', encoding='utf-8') as f:
     f.write('var simLexData = ')
     f.write(str(experiment_word_pairs))
