@@ -109,14 +109,14 @@
     <div id="slider-container"></div>
 
   <script>
-    function saveData(name, data){
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      // xhr.send(JSON.stringify({filedata: data}));
-      // // Sending the data as JSON, including the filename you wish to use.
-      xhr.send(JSON.stringify({filename: name, filedata: data}));
-    }
+    // function saveData(name, data){
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
+    //   xhr.setRequestHeader('Content-Type', 'application/json');
+    //   // xhr.send(JSON.stringify({filedata: data}));
+    //   // // Sending the data as JSON, including the filename you wish to use.
+    //   xhr.send(JSON.stringify({filename: name, filedata: data}));
+    // }
 
     function getLatestDocuments(jsonData) {
         const data = JSON.parse(jsonData);
@@ -135,31 +135,24 @@
           var jsonData = jsPsych.data.get().json(true);
           const latestDocuments = getLatestDocuments(jsonData);
           var filename = "simLex_" + subject_id + ".json";
-          saveData(filename, latestDocuments);
-          // console.log(latestDocuments.length);
-          // var pre = document.createElement('pre');
-          // pre.style.maxHeight = "500px";
-          // pre.style.overflowY = "scroll";
-          // pre.textContent = JSON.stringify(latestDocuments);
-          // pre.style.overflowY = "scroll";
-          // pre.style.textAlign = "left";
-          // pre.textContent = JSON.stringify(latestDocuments, null, 2);
-          // var message = document.createElement('p');
-          // message.style.textAlign = "left";
-          // message.textContent = "Experiment data (JSON):";
-          // document.body.appendChild(message);
-          // document.body.appendChild(pre);
-          // var completionDiv = document.createElement('div');
-          // completionDiv.style.margin = "2em";
-          // completionDiv.innerHTML = "Completion message...";
-          // document.body.appendChild(completionDiv);
-          $(".jspsych-display-element").html("<div style='margin:2em;'> \
-        <p> You have now completed the first part of the study! Congratulations and thank you!\
-        Your results were recorded under the participant ID: <b>" + subject_id + "</b> \
-        <p><font size = 3><font color = red><b>Please, copy or write down your participant ID as you will have to use it in the next part of the study. If you don't use this ID and only provide your Prolific ID, we won't be able to record your response.</b></font></p> \
-        <p> Click on the link to move to the next part and to make sure your participation is recorded. You won't be awarded credit if you don't finish both parts. <a href='https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe' target='_blank'>https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe</a> <p></p>You will get the Prolific code for the participation at the end of the next part. <p> \
-        </p><p>If you have any questions, please contact Ana Chkhaidze at achkhaid@ucsd.edu\
-        <div>");
+          // saveData(filename, latestDocuments);
+          console.log(latestDocuments.length);
+          var pre = document.createElement('pre');
+          pre.style.maxHeight = "500px";
+          pre.style.overflowY = "scroll";
+          pre.textContent = JSON.stringify(latestDocuments);
+          pre.style.overflowY = "scroll";
+          pre.style.textAlign = "left";
+          pre.textContent = JSON.stringify(latestDocuments, null, 2);
+          var message = document.createElement('p');
+          message.style.textAlign = "left";
+          message.textContent = "Experiment data (JSON):";
+          document.body.appendChild(message);
+          document.body.appendChild(pre);
+          var completionDiv = document.createElement('div');
+          completionDiv.style.margin = "2em";
+          completionDiv.innerHTML = "Completion message...";
+          document.body.appendChild(completionDiv);
         }
       })
     ;
