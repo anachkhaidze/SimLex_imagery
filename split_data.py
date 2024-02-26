@@ -94,21 +94,21 @@ for i in range(11):
         current_experiment.append({
             'word1': word,
             'word2': word,
-            'stimulusID': 1000 + data.loc[index, 'stimulusID'],
-            'attentionCheck': 1,
             'POS': 'C',
-            'SimLex999': 0,
-            'conc_word1': 0,
-            'conc_word2': 0,
-            'concQ': 0,
-            'assoc_usf': 0,
-            'SimAssoc333': 0,
-            'sd_simLex': 0,
+            'SimLex999': data.loc[index, 'SimLex999'],
+            'conc_word1': data.loc[index, 'conc_word1'],
+            'conc_word2': data.loc[index, 'conc_word2'],
+            'concQ': data.loc[index, 'concQ'],
+            'assoc_usf': data.loc[index, 'assoc_usf'],
+            'SimAssoc333': data.loc[index, 'SimAssoc333'],
+            'sd_simLex': data.loc[index, 'sd_simLex'],
+            'stimulusID': 1000 + random_stimulus_id,
             'stim': f'{word}/{word}',
-            'lanc_motor_sim': 0,
-            'lanc_sensory_sim': 0,
-            'lanc_sensorymotor_sim': 0,
-            'glove_sim': 0
+            'lanc_motor_sim': distance.cosine(word1_lanc_motor, word2_lanc_motor).round(3),
+            'lanc_sensory_sim': distance.cosine(word1_lanc_sensory, word2_lanc_sensory).round(3),
+            'lanc_sensorymotor_sim': distance.cosine(word1_lanc_sensorymotor, word2_lanc_sensorymotor).round(3),
+            'glove_sim': distance.cosine(glove[word1], glove[word2]).round(3),
+            'attentionCheck': 1
         })
     random_indices = np.random.choice(experiment_indices, number_of_force_checks, replace=False)
     for index in random_indices:
@@ -117,21 +117,21 @@ for i in range(11):
         current_experiment.append({
             'word1': 'force',
             'word2': 'check',
-            'stimulusID': 2000 + data.loc[index, 'stimulusID'],
-            'attentionCheck': 1,
             'POS': 'C',
-            'SimLex999': 1000,
-            'conc_word1': 0,
-            'conc_word2': 0,
-            'concQ': 0,
-            'assoc_usf': 0,
-            'SimAssoc333': 0,
-            'sd_simLex': 0,
-            'stim': f'Choose{random_number}',
-            'lanc_motor_sim': 0,
-            'lanc_sensory_sim': 0,
-            'lanc_sensorymotor_sim': 0,
-            'glove_sim': 0
+            'SimLex999': '1000',
+            'conc_word1': '0',
+            'conc_word2': '0',
+            'concQ': '0',
+            'assoc_usf': '0',
+            'SimAssoc333': '0',
+            'sd_simLex': '0',
+            'stimulusID': 2000 + random_stimulus_id,
+            'stim': f'Choose_{random_number}',
+            'lanc_motor_sim': '0',
+            'lanc_sensory_sim': '0',
+            'lanc_sensorymotor_sim': '0',
+            'glove_sim': '0',
+            'attentionCheck': 2
         })
     experiment_word_pairs[f'List {i}'] = current_experiment
                 
