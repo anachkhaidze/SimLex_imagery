@@ -13,6 +13,7 @@
     <script src="simLex_dataset/allTrials.js"></script>
     <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.0"></script>
     <style>
+
       body {
         font-family: sans-serif;
         margin: 20px;
@@ -23,8 +24,8 @@
         flex-direction: column;
         gap: 20px;
         margin-bottom: 20px;
-        margin-left: auto;  /* These two lines will */
-        margin-right: auto; /* center the container */
+        margin-left: auto;/* center the container */
+        margin-right: auto;
       }
       .header{
         text-align: left;
@@ -32,7 +33,8 @@
       .slider {
         min-width: 150px; /* Adjust the min-width as needed to fit the largest label */
         text-align: right;
-        margin-right: 15%;
+        font-size: x-large;
+        
       }
       .slider-label {
         text-align: center; /* Center the text label */
@@ -40,19 +42,24 @@
       }
 
       .math-inline{
-        padding-right: 15px; /* Added more space between pairs and slider*/
+        margin-right: 10px; /* Added more space between pairs and slider*/
+        
+        
+
       }
       
       /* Ensure all sliders have the same width */
       .slider-input {
-        width: 300px; /* Adjust this width to control the width of all sliders */
-        opacity: 0.5
+        width: 400px; /* Adjust this width to control the width of all sliders */
+        opacity: 0.5;
+        margin: auto;
       }
 
     
       .slider-input.active {
         opacity: 1; /* Active opacity */
       }
+
       #next-button {
         padding: 10px 20px;
         border: none;
@@ -64,40 +71,52 @@
         display: block; /* Make the button a block-level element */
         margin: 0 auto; /* Auto margins to center horizontally */
         opacity: 0.5;
+        margin-top: 15px;
+        margin-bottom: 15px;;
       }
+
       #next-button:enabled {
       background-color: #2980b9; /* Enabled state */
       opacity: 1;
-    }
+      }
 
-    /* Container for the less and more similar text */
-    .similar-container{
-      display: flex; 
-      justify-content: space-between;
-    }
+      #rate_text{
+        font-size: smaller;
+      }
+      /* Container for the less and more similar text */
+      .similar-container{
+        display: flex; 
+        justify-content: space-between;
+      }
 
-    /* Adjusting nums to match with the slider */
-   .slider-nums{
-      display: flex; 
-      margin-left: 35%;
-      gap: 38px;
+      /* Adjusting nums to match with the slider */
+    .slider-nums{
+        display: flex; 
+        margin-left: 43%;
+        gap: 54px;
+        color: #CC5500;
+        margin-top: -10px;
+        margin-bottom: -20px;
+        font-size: large;
+        
+      }
+
       
-      
-    }
+      /* adjusting less and more simlar to be in correct position */
+      #left-similar{
+        
+        margin-left: 43%;
+        font-weight: bold;
+        margin-bottom: -10px;
+      }
 
-    /* adjusting less and more simlar to be in correct position */
-    #left-similar{
-      text-align: center;
-      margin-left: 35%;
-      font-weight: bold;
-    }
-
-    #right-similar{
-      text-align: right;
-      margin-right: 15%;
-      font-weight: bold;
-      
-    }
+      #right-similar{
+        text-align: right;
+        font-weight: bold;
+        margin-bottom: -10px;
+        margin-right: 20px;
+        
+      }
 
     
     
@@ -120,6 +139,7 @@
     document.addEventListener('DOMContentLoaded', (event) => {
       // initialize jsPsych
       var jsPsych = initJsPsych({
+        
         on_finish: function() {
           var jsonData = jsPsych.data.get().json(true);
           const latestDocuments = getLatestDocuments(jsonData);
@@ -141,7 +161,8 @@
           completionDiv.style.margin = "2em";
           completionDiv.innerHTML = "Completion message...";
           document.body.appendChild(completionDiv);
-        }
+        },
+        experiment_width: 750
       });
     var entries = [];
           
@@ -227,14 +248,15 @@
         
         htmlContent += `<div class="header">
             
-            <p>Rate the following pairs according to how similar they are by moving the slider</p>
+            <p id="rate_text">Rate the following pairs according to how similar they are by moving the slider</p>
             <div class ="similar-container">
               <p id='left-similar'>Less Similar</p>
               <p id='right-similar'>More Similar</p>
             </div>
+          </div>
             `
           
-          htmlContent += `<div class = "graph-bg">`
+          
 
           htmlContent += `<div class="slider-nums">
               <p>0</p>
@@ -290,7 +312,6 @@
               </div>
             `;
           }
-          htmlContent += '</div>';
           htmlContent += '</div>';
           htmlContent += '<button id="next-button">Next</button>';
           return htmlContent;
