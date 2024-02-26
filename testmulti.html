@@ -15,6 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
+
       body {
         font-family: sans-serif;
         margin: 20px;
@@ -25,8 +26,8 @@
         flex-direction: column;
         gap: 20px;
         margin-bottom: 20px;
-        margin-left: auto;  /* These two lines will */
-        margin-right: auto; /* center the container */
+        margin-left: auto;/* center the container */
+        margin-right: auto;
       }
       .header{
         text-align: left;
@@ -34,7 +35,8 @@
       .slider {
         min-width: 150px; /* Adjust the min-width as needed to fit the largest label */
         text-align: right;
-        margin-right: 15%;
+        font-size: 22px;
+        
       }
       .slider-label {
         text-align: center; /* Center the text label */
@@ -42,19 +44,24 @@
       }
 
       .math-inline{
-        padding-right: 15px; /* Added more space between pairs and slider*/
+        margin-right: 10px; /* Added more space between pairs and slider*/
+        
+        
+
       }
       
       /* Ensure all sliders have the same width */
       .slider-input {
-        width: 300px; /* Adjust this width to control the width of all sliders */
-        opacity: 0.5
+        width: 400px; /* Adjust this width to control the width of all sliders */
+        opacity: 0.5;
+        margin: auto;
       }
 
     
       .slider-input.active {
         opacity: 1; /* Active opacity */
       }
+
       #next-button {
         padding: 10px 20px;
         border: none;
@@ -66,40 +73,53 @@
         display: block; /* Make the button a block-level element */
         margin: 0 auto; /* Auto margins to center horizontally */
         opacity: 0.5;
+        margin-top: 30px; /* Adjust this and bottom for the next button space */
+        margin-bottom: 30px;;
       }
+
       #next-button:enabled {
       background-color: #2980b9; /* Enabled state */
       opacity: 1;
-    }
+      }
 
-    /* Container for the less and more similar text */
-    .similar-container{
-      display: flex; 
-      justify-content: space-between;
-    }
+      #rate_text{
+        /* Adjust this for the top text aksing to rate words */
+        font-size: smaller;
+      }
+      /* Container for the less and more similar text */
+      .similar-container{
+        display: flex; 
+        justify-content: space-between;
+      }
 
-    /* Adjusting nums to match with the slider */
-   .slider-nums{
-      display: flex; 
-      margin-left: 35%;
-      gap: 38px;
+      /* Adjusting nums to match with the slider */
+    .slider-nums{
+        display: flex; 
+        margin-left: 45%; /*Creatinga set margin so it alligns with word pair slider*/
+        gap: 54px; /* setting gap to line up wiht the slider step */
+        color: #CC5500;
+        margin-top: -10px;
+        margin-bottom: -20px;
+        font-size: large;
+        
+      }
+
       
-      
-    }
+      /* adjusting less and more simlar to be in correct position */
+      #left-similar{
+        
+        margin-left: 45%; /* adjust this to align with the slider*/
+        font-weight: bold;
+        margin-bottom: -10px;
+      }
 
-    /* adjusting less and more simlar to be in correct position */
-    #left-similar{
-      text-align: center;
-      margin-left: 35%;
-      font-weight: bold;
-    }
-
-    #right-similar{
-      text-align: right;
-      margin-right: 15%;
-      font-weight: bold;
-      
-    }
+      #right-similar{
+        text-align: right;
+        font-weight: bold;
+        margin-bottom: -10px;
+        margin-right: 20px;
+        
+      }
 
     
     
@@ -131,6 +151,7 @@
     document.addEventListener('DOMContentLoaded', (event) => {
       // initialize jsPsych
       var jsPsych = initJsPsych({
+        
         on_finish: function() {
           var jsonData = jsPsych.data.get().json(true);
           const latestDocuments = getLatestDocuments(jsonData);
@@ -141,28 +162,21 @@
           // pre.style.maxHeight = "500px";
           // pre.style.overflowY = "scroll";
           // pre.textContent = JSON.stringify(latestDocuments);
-          // pre.style.overflowY = "scroll";
-          // pre.style.textAlign = "left";
-          // pre.textContent = JSON.stringify(latestDocuments, null, 2);
-          // var message = document.createElement('p');
-          // message.style.textAlign = "left";
-          // message.textContent = "Experiment data (JSON):";
-          // document.body.appendChild(message);
-          // document.body.appendChild(pre);
-          // var completionDiv = document.createElement('div');
-          // completionDiv.style.margin = "2em";
-          // completionDiv.innerHTML = "Completion message...";
-          // document.body.appendChild(completionDiv);
-          $(".jspsych-display-element").html("<div style='margin:2em;'> \
-        <p> You have now completed the first part of the study! Congratulations and thank you!\
-        Your results were recorded under the participant ID: <b>" + subject_id + "</b> \
-        <p><font size = 3><font color = red><b>Please, copy or write down your participant ID as you will have to use it in the next part of the study. If you don't use this ID and only provide your Prolific ID, we won't be able to record your response.</b></font></p> \
-        <p> Click on the link to move to the next part and to make sure your participation is recorded. You won't be awarded credit if you don't finish both parts. <a href='https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe' target='_blank'>https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe</a> <p></p>You will get the Prolific code for the participation at the end of the next part. <p> \
-        </p><p>If you have any questions, please contact Ana Chkhaidze at achkhaid@ucsd.edu\
-        <div>");
-        }
-      })
-    ;
+          pre.style.overflowY = "scroll";
+          pre.style.textAlign = "left";
+          pre.textContent = JSON.stringify(latestDocuments, null, 2);
+          var message = document.createElement('p');
+          message.style.textAlign = "left";
+          message.textContent = "Experiment data (JSON):";
+          document.body.appendChild(message);
+          document.body.appendChild(pre);
+          var completionDiv = document.createElement('div');
+          completionDiv.style.margin = "2em";
+          completionDiv.innerHTML = "Completion message...";
+          document.body.appendChild(completionDiv);
+        },
+        experiment_width: 775 /* added this to make it larger without the overflow issue */
+      });
     var entries = [];
           
     var timeline = [];
@@ -240,6 +254,13 @@
       subject: subject_id,
       list: list_assignment
     });
+
+    var consent = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: '<embed src="images/consent.pdf" width="800px" height="500px" /><br></br> ',
+      choices: ['Yes']
+    };
+    timeline.push(consent);
     
     var trial = {
       type: jsPsychHtmlKeyboardResponse, 
@@ -250,14 +271,15 @@
         
         htmlContent += `<div class="header">
             
-            <p>Rate the following pairs according to how similar they are by moving the slider</p>
+            <p id="rate_text">Rate the following pairs according to how similar they are by moving the slider</p>
             <div class ="similar-container">
               <p id='left-similar'>Less Similar</p>
               <p id='right-similar'>More Similar</p>
             </div>
+          </div>
             `
           
-          htmlContent += `<div class = "graph-bg">`
+          
 
           htmlContent += `<div class="slider-nums">
               <p>0</p>
@@ -314,7 +336,6 @@
             `;
           }
           htmlContent += '</div>';
-          htmlContent += '</div>';
           htmlContent += '<button id="next-button">Next</button>';
           return htmlContent;
         },
@@ -333,6 +354,7 @@
           };
           sliders.forEach(function (slider) {
             slider.addEventListener('change', function () {
+              console.log(this.dataset.attentioncheck);
                 jsPsych.data.get().push({
                     item_id: this.dataset.itemId,
                     index: this.dataset.index,
