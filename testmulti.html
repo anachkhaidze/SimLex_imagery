@@ -174,7 +174,8 @@
           completionDiv.style.margin = "2em";
           completionDiv.innerHTML = "Completion message...";
           document.body.appendChild(completionDiv);
-        }
+        },
+        experiment_width: 775 /* added this to make it larger without the overflow issue */
       });
     var entries = [];
           
@@ -253,6 +254,13 @@
       subject: subject_id,
       list: list_assignment
     });
+
+    var consent = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: 'consent.pdf',
+      choices: ['Yes']
+    };
+    timeline.push(consent);
     
     var trial = {
       type: jsPsychHtmlKeyboardResponse, 
