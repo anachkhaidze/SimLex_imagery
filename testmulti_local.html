@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SimLex Test </title>
+    <script src="https://unpkg.com/jspsych@7.3.4"></script>
+    <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert plugin@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-canvas-slider-response@1.1.3"></script>
+    <script src="https://unpkg.com/@multiSlider/plugin-canvas-slider-response@1.1.3"></script>
+    <script src="SimLex_dataset/allTrials.js"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.0"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 20px;
+        text-align: center; /* This will center the button text */
+      }
+      .slider-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 20px;
+        margin-left: auto;  /* These two lines will */
+        margin-right: auto; /* center the container */
+      }
+      .header{
+        text-align: left;
+      }
+      .slider {
+        min-width: 150px; /* Adjust the min-width as needed to fit the largest label */
+        text-align: right;
+        margin-right: 15%;
+      }
+      .slider-label {
+        text-align: center; /* Center the text label */
+        margin-right: 10px; /* Add some space between label and slider input */
+      }
+
+      .math-inline{
+        padding-right: 15px; /* Added more space between pairs and slider*/
+      }
+      
+      /* Ensure all sliders have the same width */
+      .slider-input {
+        width: 300px; /* Adjust this width to control the width of all sliders */
+        opacity: 0.5
+      }
+
+    
+      .slider-input.active {
+        opacity: 1; /* Active opacity */
+      }
+      #next-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #2980b9;
+        color: white;
+        cursor: pointer;
+        /* Center the button horizontally */
+        display: block; /* Make the button a block-level element */
+        margin: 0 auto; /* Auto margins to center horizontally */
+        opacity: 0.5;
+      }
+      #next-button:enabled {
+      background-color: #2980b9; /* Enabled state */
+      opacity: 1;
+    }
+
+    /* Container for the less and more similar text */
+    .similar-container{
+      display: flex; 
+      justify-content: space-between;
+    }
+
+    /* Adjusting nums to match with the slider */
+   .slider-nums{
+      display: flex; 
+      margin-left: 35%;
+      gap: 38px;
+      
+      
+    }
+
+    /* adjusting less and more simlar to be in correct position */
+    #left-similar{
+      text-align: center;
+      margin-left: 35%;
+      font-weight: bold;
+    }
+
+    #right-similar{
+      text-align: right;
+      margin-right: 15%;
+      font-weight: bold;
+      
+    }
+
+    
+    
+    </style>
+  </head>
+  <body>
+    <div id="slider-container"></div>
+
+  <script>
+     function saveData(name, data){
+       var xhr = new XMLHttpRequest();
+       xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
+       xhr.setRequestHeader('Content-Type', 'application/json');
+       xhr.send(JSON.stringify({filedata: data}));
+        // Sending the data as JSON, including the filename you wish to use.
+       xhr.send(JSON.stringify({filename: name, filedata: data}));
+     }
+
+    function getLatestDocuments(jsonData) {
+        const data = JSON.parse(jsonData);
+        const groupedData = Object.values(data.reduce((acc, curr) => {
+            acc[curr.item_id] = acc[curr.item_id] || [];
+            acc[curr.item_id].push(curr);
+            return acc;
+        }, {}));
+        return groupedData.map(group => group.reduce((latest, current) => (!latest || current.time > latest.time) ? current : latest));
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+      // initialize jsPsych
+      var jsPsych = initJsPsych({
+        on_finish: function() {
+          var jsonData = jsPsych.data.get().json(true);
+          const latestDocuments = getLatestDocuments(jsonData);
+          console.log(latestDocuments.length);
+          var filename = "simLex_" + subject_id + ".json";
+         // saveData(filename, latestDocuments);
+          console.log(latestDocuments);
+          var pre = document.createElement('pre');
+          pre.style.maxHeight = "500px";
+          pre.style.overflowY = "scroll";
+          pre.textContent = JSON.stringify(latestDocuments);
+          pre.style.overflowY = "scroll";
+          pre.style.textAlign = "left";
+          pre.textContent = JSON.stringify(latestDocuments, null, 2);
+          var message = document.createElement('p');
+          message.style.textAlign = "left";
+          message.textContent = "Experiment data (JSON):";
+          document.body.appendChild(message);
+          document.body.appendChild(pre);
+          var completionDiv = document.createElement('div');
+          completionDiv.style.margin = "2em";
+          completionDiv.innerHTML = "Completion message...";
+          document.body.appendChild(completionDiv);
+        }
+      })
+    ;
+    var entries = [];
+          
+    var timeline = [];
+    
+    
+    /* pick a random list for the subject at the start of the experiment */
+    var list_assignment = jsPsych.randomization.sampleWithReplacement([
+      'List 0',
+      'List 1',
+      'List 2',
+      'List 3',
+      'List 4',
+      'List 5',
+      'List 6',
+      'List 7',
+      'List 8',
+      'List 9',
+      'List 10',
+    ],1)[0];
+    console.log("Randomly selected list_assignment:", list_assignment);
+
+    
+    /* generate a random subject ID with 8 characters */
+    var subject_id = jsPsych.randomization.randomID(8);
+    
+    // var enter_fullscreen = {
+    //   type: jsPsychFullscreen,
+    //   stimulus: 'This trial will be in fullscreen mode.',
+    //   choices: ['Continue']
+    // }
+
+    // timeline.push(enter_fullscreen)
+
+  
+    generateTrials = function() {
+      // there are 11 list alignments in the simLexData. choose 1 randomly
+      trialInfo = new Array(1).fill(simLexData[list_assignment]).flat();
+      for (let i = 0; i < trialInfo.length; i++) {
+        trialInfo[i].word1 = trialInfo[i].word1
+        trialInfo[i].word2 = trialInfo[i].word2
+        trialInfo[i].SimLex999 = trialInfo[i].SimLex999
+        trialInfo[i].sd_simLex = trialInfo[i].sd_simLex
+        trialInfo[i].SimAssoc333 = trialInfo[i].SimAssoc333
+        trialInfo[i].stim = trialInfo[i].stim
+        trialInfo[i].stimulusID = trialInfo[i].stimulusID
+        trialInfo[i].list = list_assignment
+        trialInfo[i].conc_word1 = trialInfo[i].conc_word1
+        trialInfo[i].conc_word2 = trialInfo[i].conc_word2
+        trialInfo[i].concQ = trialInfo[i].concQ
+        trialInfo[i].assoc_usf = trialInfo[i].assoc_usf
+        trialInfo[i].lanc_motor_sim = trialInfo[i].lanc_motor_sim
+        trialInfo[i].lanc_sensory_sim = trialInfo[i].lanc_sensory_sim
+        trialInfo[i].lanc_sensorymotor_sim = trialInfo[i].lanc_sensorymotor_sim
+        trialInfo[i].glove_sim = trialInfo[i].glove_sim
+        trialInfo[i].attentionCheck = trialInfo[i].attentionCheck
+      }
+      trialInfo = jsPsych.randomization.shuffle(trialInfo);
+      return trialInfo;
+    }
+
+
+    pageWiseTrials = function() {
+      trialInfo = generateTrials();
+      var trialIndex = 0;
+      var trialsPerPage = 8;
+      var numberOfPages = Math.ceil(104/ trialsPerPage);
+      var trialsPages = [];
+      for (var i = 0; i < numberOfPages; i++) {
+        trialsPages.push({'pageData': trialInfo.slice(i * trialsPerPage, (i + 1) * trialsPerPage)});
+      }
+      return trialsPages
+    }
+    // this adds a property called 'subject' and a property called 'condition' to every trial
+    jsPsych.data.addProperties({
+      subject: subject_id,
+      list: list_assignment
+    });
+    
+    var trial = {
+      type: jsPsychHtmlKeyboardResponse, 
+      choices: "NO_KEYS",       
+      stimulus: function() {
+        var htmlContent = '<div class="slider-container">';
+        var pageEntry = jsPsych.timelineVariable('pageData');
+        
+        htmlContent += `<div class="header">
+            
+            <p>Rate the following pairs according to how similar they are by moving the slider</p>
+            <div class ="similar-container">
+              <p id='left-similar'>Less Similar</p>
+              <p id='right-similar'>More Similar</p>
+            </div>
+            `
+          
+          htmlContent += `<div class = "graph-bg">`
+
+          htmlContent += `<div class="slider-nums">
+              <p>0</p>
+              <p>1</p>
+              <p>2</p>
+              <p>3</p>
+              <p>4</p>
+              <p>5</p>
+              <p>6</p>
+            </div>
+          `
+
+        
+        for (var i = 0; i < pageEntry.length; i++) {
+          var trialData = pageEntry[i];
+          
+          htmlContent += `
+
+              <div class="slider">
+        
+                <span class="slider-label">
+    
+                    <span class="math-inline">${trialData.stim}
+                </span>
+                  <input type="range"
+                  class="slider-input"
+                  min=0
+                  max=6
+                  step=1
+                  value="3"
+                  data-item-id="${trialData.stimulusID}"
+                  data-index="${i}"
+                  data-word1=${trialData.word1}
+                  data-word2=${trialData.word2}
+                  data-pos=${trialData.POS}
+                  data-simlex=${trialData.SimLex999}
+                  data-concwordone=${trialData.conc_word1}
+                  data-concwordtwo=${trialData.conc_word2}
+                  data-concq=${trialData.concQ}
+                  data-assocusf=${trialData.assoc_usf}
+                  data-stim=${trialData.stim}
+                  data-simasoc=${trialData.SimAssoc333}
+                  data-stim=${trialData.stim}
+                  data-lancmotorsim=${trialData.lanc_motor_sim}
+                  data-lancsensorysim=${trialData.lanc_sensory_sim}
+                  data-lancsensorymotorsim=${trialData.lanc_sensorymotor_sim}
+                  data-attentioncheck=${trialData.attentionCheck}
+                  data-glovesim=${trialData.glove_sim}
+                  data-time=""
+               >
+               <span class="slider-value">3</span> <!-- Display initial slider value -->
+               <br>
+              </div>
+            `;
+          }
+          htmlContent += '</div>';
+          htmlContent += '</div>';
+          htmlContent += '<button id="next-button">Next</button>';
+          return htmlContent;
+        },
+        prompt: '<p>Please fill all sliders before proceeding to the next page.</p>',
+        on_load : function (data) {
+          document.getElementById('next-button').disabled = true; 
+          var sliders = document.querySelectorAll('.slider-input');
+          var checkSlidersMoved = function() {
+            // Check if all sliders have a class 'active', which means they have been moved
+            var allMoved = Array.from(sliders).every(function(slider) {
+              return slider.classList.contains('active');
+            });
+            
+            // Enable or disable the 'Next' button based on whether all sliders have been moved
+            document.getElementById('next-button').disabled = !allMoved; // <-- Corrected line
+          };
+          sliders.forEach(function (slider) {
+            slider.addEventListener('change', function () {
+                jsPsych.data.get().push({
+                    item_id: this.dataset.itemId,
+                    index: this.dataset.index,
+                    value: this.value,
+                    word1: this.dataset.word1,
+                    word2: this.dataset.word2,
+                    pos: this.dataset.pos,
+                    simlex: this.dataset.simlex,
+                    concwordone: this.dataset.concwordone,
+                    concwordtwo: this.dataset.concwordtwo,
+                    concq: this.dataset.concq,
+                    assocusf: this.dataset.assocusf,
+                    stim: this.dataset.stim,
+                    simasoc: this.dataset.simasoc,
+                    time: new Date().getTime(),
+                    subject: subject_id,
+                    list: list_assignment,
+                    lancmotorsim: this.dataset.lancmotorsim,
+                    lancsensorysim: this.dataset.lancsensorysim,
+                    lancsensorymotorsim: this.dataset.lancsensorymotorsim,
+                    glovesim: this.dataset.glovesim,
+                    attentioncheck: this.dataset.attentioncheck                  
+                });
+            });
+
+
+            slider.addEventListener('input', function () {
+                // Mark the slider as 'active' to indicate it has been moved
+                this.classList.add('active');
+
+                // Update the value display
+                var valueSpan = this.nextElementSibling;
+                valueSpan.textContent = this.value;
+
+                // Check if all sliders have been moved
+                checkSlidersMoved();
+              });
+            });
+            // make the button unclickable till all sliders are filled
+            document.getElementById('next-button').addEventListener('click', function () {
+                jsPsych.finishTrial();
+            });
+        }
+    };
+
+
+    var test_procedure = {
+      timeline: [trial],
+      timeline_variables: pageWiseTrials(),
+    };
+    timeline.push(test_procedure);
+
+    var finalTrial = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p>You have now completed the first part of the study! Congratulations and thank you! Click continue to move to the next part.<br><br></p>',
+    choices: ['Continue'],
+    };
+    timeline.push(finalTrial);
+
+    // var exit_fullscreen = {
+    //   type: jsPsychFullscreen,
+    //   fullscreen_mode: false,
+    //   delay_after: 0
+    // }
+    // timeline.push(exit_fullscreen);
+
+    jsPsych.run(timeline);
+
+  });
+</script>
+</body>
+
+</html>

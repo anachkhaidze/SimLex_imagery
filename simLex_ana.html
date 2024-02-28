@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SimLex Test </title>
+    <script src="https://unpkg.com/jspsych@7.3.4"></script>
+    <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert plugin@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-canvas-slider-response@1.1.3"></script>
+    <script src="simLex_dataset/trialInfoFull.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 20px;
+      }
+      .slider-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      .slider {
+        display: flex;
+        align-items: center;
+      }
+      .slider-label {
+        width: 200px;
+        text-align: right;
+      }
+      .slider-input {
+        flex: 1;
+      }
+      #next-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #2980b9;
+        color: white;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="slider-container"></div>
+    <button id="next-button">Next</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      // initialize jsPsych
+      var jsPsych = initJsPsych({
+        on_finish: function() {
+          var jsonData = jsPsych.data.get().json(true);
+          var pre = document.createElement('pre');
+          pre.style.maxHeight = "500px";
+          pre.style.overflowY = "scroll";
+          pre.textContent = jsonData;
+          var message = document.createElement('p');
+          message.textContent = "Experiment data (JSON):";
+          document.body.appendChild(message);
+          document.body.appendChild(pre);
+          var completionDiv = document.createElement('div');
+          completionDiv.style.margin = "2em";
+          completionDiv.innerHTML = "Completion message...";
+          document.body.appendChild(completionDiv);
+        }
+      });
+    var entries = [];
+          
+    var timeline = [];
+    /* pick a random list for the subject at the start of the experiment */
+    var list_assignment = jsPsych.randomization.sampleWithReplacement(['list_1', 'list_2'],1)[0];
+    /* generate a random subject ID with 8 characters */
+    var subject_id = jsPsych.randomization.randomID(8);
+  
+    generateTrials = function() {
+      if (list_assignment == "list_1") {
+        trialInfo = new Array(1).fill(trialList1).flat();
+      } else if (list_assignment == "list_2") {
+        trialInfo = new Array(1).fill(trialList2).flat();
+      }
+      for (let i = 0; i < 10; i++) {
+        trialInfo[i].word1 = trialInfo[i].word1
+        trialInfo[i].word2 = trialInfo[i].word2
+        trialInfo[i].SimLex999 = trialInfo[i].SimLex999
+        trialInfo[i].list = trialInfo[i].sd_simLex
+        trialInfo[i].SimAssoc333 = trialInfo[i].SimAssoc333
+        trialInfo[i].stim = trialInfo[i].stim
+        trialInfo[i].stimulusID = trialInfo[i].stimulusID
+        trialInfo[i].list = trialInfo[i].list
+      }
+      trialInfo = jsPsych.randomization.shuffle(trialInfo);
+      return trialInfo
+    }
+
+    
+    // pageWiseTrials = function() {
+    //   trialInfo = generateTrials();
+    //   var trialIndex = 0;
+    //   var trialsPerPage = 5;
+    //   var numberOfPages = Math.ceil(10/ trialsPerPage);
+    //   var trialsPages = [];
+    //   for (var i = 0; i < numberOfPages; i++) {
+    //     trialsPages.push({'pageData': trialInfo.slice(i * trialsPerPage, (i + 1) * trialsPerPage)});
+    //   }
+    //   return trialsPages
+    // }
+
+    // this adds a property called 'subject' and a property called 'condition' to every trial
+    jsPsych.data.addProperties({
+      subject: subject_id,
+      list: list_assignment
+    });
+
+
+    pageWiseTrials = function() {
+      trialInfo = generateTrials();
+      var trialIndex = 0;
+      var trialsPerPage = 5;
+      var numberOfPages = Math.ceil(10/ trialsPerPage);
+      var trialsPages = [];
+      for (var i = 0; i < numberOfPages; i++) {
+        trialsPages.push({'pageData': trialInfo.slice(i * trialsPerPage, (i + 1) * trialsPerPage)});
+      }
+      return trialsPages
+    }
+
+    // var trial = {
+    //   type: jsPsychSurveyLikert,
+    //   var pageEntry = jsPsych.timelineVariable('pageData'),
+
+        
+    //   stimulus: function() {
+    //     var htmlContent = '<div class="slider-container">';
+    //     var pageEntry = jsPsych.timelineVariable('pageData');
+    //     for (var i = 0; i < pageEntry.length; i++) {
+    //       var trialData = pageEntry[i];
+    //       htmlContent += `
+    //           <div class="slider">
+    //             <span class="slider-label"><span class="math-inline">${trialData.stim}</span>
+    //               <input type="range"
+    //               class="slider-input"
+    //               min=1
+    //               max=6
+    //               step=1
+    //               value=3"
+    //               data-item-id="${trialData.stimulusID}"
+    //               data-index="${i}"
+    //               data-word1=${trialData.word1}
+    //               data-word2=${trialData.word2}
+    //               data-pos=${trialData.POS}
+    //               data-simlex=${trialData.SimLex999}
+    //               data-concwordone=${trialData.conc_word1}
+    //               data-concwordtwo=${trialData.conc_word2}
+    //               data-concq=${trialData.concQ}
+    //               data-assocusf=${trialData.assoc_usf}
+    //               data-stim=${trialData.stim}
+    //               data-simasoc=${trialData.SimAssoc333}
+    //            >
+    //           </div>
+    //         `;
+    //       }
+    //       htmlContent += '</div>';
+    //       return htmlContent;
+    //     },
+    //     // Handle slider changes using event listeners instead of custom response plugin
+    //     on_load: function () {
+    //       var sliders = document.querySelectorAll('.slider-input');
+
+    //       sliders.forEach(function (slider) {
+    //         slider.addEventListener('click', function () {
+    //           jsPsych.data.get().push({
+    //             stimulusID: this.dataset.itemId,
+    //             index: this.dataset.index,
+    //             sliderValue: this.value,
+    //             stim: this.dataset.label,
+    //             SimLiex999: this.dataset.simlex,
+    //             word1: this.dataset.word1,
+    //             word2: this.dataset.word2,
+    //             POS: this.dataset.pos,
+    //             concreteness_word1: this.dataset.concwordone,
+    //             concreteness_word2: this.dataset.concwordtwo,
+    //             concQ: this.dataset.concq,
+    //             assoc_USF: this.dataset.assocusf,
+    //             sim_Assoc: this.dataset.simasoc,
+    //             subject: subject_id,
+    //             list: list_assignment
+    //           });
+    //           entries.push({
+    //             stimulusID: this.dataset.itemId,
+    //             index: this.dataset.index,
+    //             sliderValue: this.value,
+    //             stim: this.dataset.label,
+    //             SimLiex999: this.dataset.simlex,
+    //             word1: this.dataset.word1
+    //           });
+    //         });
+    //       });
+    //       // if the slider was not clicked, then the value is 3       
+    //     }
+    //   };
+    // var welcome = {
+    //   type: jsPsychHtmlKeyboardResponse,
+    //   stimulus: "Welcome to the experiment. Press any key to begin."
+    // };
+    // timeline.push(welcome);
+
+    // var instructions = {
+    //   type: jsPsychHtmlKeyboardResponse,
+    //   stimulus: "Instructions go here. Press any key to continue."
+    // };
+    // timeline.push(instructions);
+
+    // var consent = {
+    //   type: jsPsychHtmlButtonResponse,
+    //   stimulus: "<p>Have you read the terms and conditions?</p>",
+    //   choices: ['Yes']
+    // };
+    // timeline.push(consent);  
+    var trial = {
+      type: jsPsychHtmlSliderResponse,
+      stimulus: function() {
+        var htmlContent = '<div class="slider-container">';
+        var pageEntry = jsPsych.timelineVariable('pageData');
+        for (var i = 0; i < pageEntry.length; i++) {
+          var trialData = pageEntry[i];
+          htmlContent += `
+              <div class="slider">
+                <span class="slider-label"><span class="math-inline">${trialData.stim}</span>
+                  <input type="range"
+                  class="slider-input"
+                  min=1
+                  max=6
+                  step=1
+                  value=3"
+                  data-item-id="${trialData.stimulusID}"
+                  data-index="${i}"
+                  data-word1=${trialData.word1}
+                  data-word2=${trialData.word2}
+                  data-pos=${trialData.POS}
+                  data-simlex=${trialData.SimLex999}
+                  data-concwordone=${trialData.conc_word1}
+                  data-concwordtwo=${trialData.conc_word2}
+                  data-concq=${trialData.concQ}
+                  data-assocusf=${trialData.assoc_usf}
+                  data-stim=${trialData.stim}
+                  data-simasoc=${trialData.SimAssoc333}
+               >
+              </div>
+            `;
+          }
+          htmlContent += '</div>';
+          return htmlContent;
+        },
+        // Handle slider changes using event listeners instead of custom response plugin
+        on_load: function () {
+          var sliders = document.querySelectorAll('.slider-input');
+          var slidersMoved = new Array(sliders.length).fill(false);
+
+          sliders.forEach(function (slider, index) {
+            slider.oninput(function () {
+              jsPsych.data.get().push({
+                stimulusID: this.dataset.itemId,
+                index: this.dataset.index,
+                sliderValue: this.value,
+                stim: this.dataset.label,
+                SimLiex999: this.dataset.simlex,
+                word1: this.dataset.word1,
+                word2: this.dataset.word2,
+                POS: this.dataset.pos,
+                concreteness_word1: this.dataset.concwordone,
+                concreteness_word2: this.dataset.concwordtwo,
+                concQ: this.dataset.concq,
+                assoc_USF: this.dataset.assocusf,
+                sim_Assoc: this.dataset.simasoc,
+                subject: subject_id,
+                list: list_assignment
+              });
+            });
+          });
+          // if the slider was not clicked, then the value is 3       
+        }
+      };
+
+    // var trial = {
+    //   type: jsPsychHtmlSliderResponse,
+    //   stimulus: function() {
+    //     var htmlContent = '<div class="slider-container">';
+    //     var pageEntry = jsPsych.timelineVariable('pageData');
+    //     for (var i = 0; i < pageEntry.length; i++) {
+    //       var trialData = pageEntry[i];
+    //       htmlContent += `
+    //           <div class="slider">
+    //             <span class="slider-label"><span class="math-inline">${trialData.stim}</span>
+    //               <input type="range"
+    //               class="slider-input"
+    //               min=1
+    //               max=6
+    //               step=1
+    //               value=3"
+    //               data-item-id="${trialData.stimulusID}"
+    //               data-index="${i}"
+    //               data-word1=${trialData.word1}
+    //               data-word2=${trialData.word2}
+    //               data-pos=${trialData.POS}
+    //               data-simlex=${trialData.SimLex999}
+    //               data-concwordone=${trialData.conc_word1}
+    //               data-concwordtwo=${trialData.conc_word2}
+    //               data-concq=${trialData.concQ}
+    //               data-assocusf=${trialData.assoc_usf}
+    //               data-stim=${trialData.stim}
+    //               data-simasoc=${trialData.SimAssoc333}
+    //            >
+    //           </div>
+    //         `;
+    //       }
+    //       htmlContent += '</div>';
+    //       return htmlContent;
+    //     },
+    //     // Handle slider changes using event listeners instead of custom response plugin
+    //     on_load: function () {
+    //       var sliders = document.querySelectorAll('.slider-input');
+
+    //       sliders.forEach(function (slider) {
+    //         slider.addEventListener('click', function () {
+    //           jsPsych.data.get().push({
+    //             stimulusID: this.dataset.itemId,
+    //             index: this.dataset.index,
+    //             sliderValue: this.value,
+    //             stim: this.dataset.label,
+    //             SimLiex999: this.dataset.simlex,
+    //             word1: this.dataset.word1,
+    //             word2: this.dataset.word2,
+    //             POS: this.dataset.pos,
+    //             concreteness_word1: this.dataset.concwordone,
+    //             concreteness_word2: this.dataset.concwordtwo,
+    //             concQ: this.dataset.concq,
+    //             assoc_USF: this.dataset.assocusf,
+    //             sim_Assoc: this.dataset.simasoc,
+    //             subject: subject_id,
+    //             list: list_assignment
+    //           });
+    //           entries.push({
+    //             stimulusID: this.dataset.itemId,
+    //             index: this.dataset.index,
+    //             sliderValue: this.value,
+    //             stim: this.dataset.label,
+    //             SimLiex999: this.dataset.simlex,
+    //             word1: this.dataset.word1
+    //           });
+    //         });
+    //       });
+    //       // if the slider was not clicked, then the value is 3       
+    //     },
+    //     // on_finish: function (data) {
+    //     //   var entries = [];
+          
+    //     //   }
+    //     // }
+
+    //     // use the button element when the trial goes to the next page
+    //     // on_finish: function (data) {
+    //       // console.log(data.stimulus);
+    //       // for (var i = 0; i < data.length; i++) {
+    //       //   console.log(data[i]);
+    //       // }
+    //       // var entries = [];
+    //       // button = document.getElementById('jspsych-html-slider-response-next');
+    //       // button.addEventListener('click', function () {
+    //       //   console.log(entries);
+    //       //   for (var i = 0; i < entries.length; i++) {
+    //       //     jsPsych.data.get().push(entries[i]);
+    //       //     console.log("success");
+    //       //   }
+    //       // });
+    //     }
+    // }; 
+    var test_procedure = {
+      timeline: [trial],
+      timeline_variables: pageWiseTrials(),
+    };
+    timeline.push(test_procedure);
+    // for (var i = 0; i < entries.length; i++) {
+    //   jsPsych.data.get().push(entries[i]);
+    //   console.log("success");
+    // }
+    jsPsych.run(timeline);
+
+  });
+</script>
+</body>
+
+</html>
