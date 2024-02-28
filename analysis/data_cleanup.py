@@ -19,4 +19,4 @@ df.loc[(df['attentioncheck'] == '2') & (df['value'] != df['stim']), 'attention_a
 df.loc[(df['attentioncheck'] == '2') & (df['value'] == df['stim']), 'attention_accuracy'] = 1
 df.fillna(-1, inplace=True)
 
-df.to_csv('D:\\kiyonaga\\SimLex_imagery\\user_consolidated.csv', index=False)
+df.to_csv('D:\\kiyonaga\\SimLex_imagery\\data\\participants_consolidated.csv', index=False)
