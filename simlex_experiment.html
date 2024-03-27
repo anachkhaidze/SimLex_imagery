@@ -151,6 +151,9 @@
     document.addEventListener('DOMContentLoaded', (event) => {
       // initialize jsPsych
       var jsPsych = initJsPsych({
+
+        show_progress_bar: true,
+        auto_update_progress_bar: false,
         
         on_finish: function() {
           var jsonData = jsPsych.data.get().json(true);
@@ -228,6 +231,7 @@
 
 
     pageWiseTrials = function() {
+      
       trialInfo = generateTrials();
       var trialIndex = 0;
       var trialsPerPage = 8;
@@ -245,9 +249,9 @@
     });
 
     var introduction = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: jsPsychHtmlButtonResponse,
       stimulus: '<p><b>Welcome to the experiment!</b></p><p>Thank you for your interest in participating in this study. On the next page, you will see a consent form. Please read the form and indicate if you agree to participate. If you agree to participate, the whole study should take about 30 minutes. The study consists of two parts. You will get the link for the second half at the end of this half. Please press the space bar to proceed. The study will continue in the fullscreen mode</p>',
-      choices: [" "],
+      choices: ['I agree'],
     };
     timeline.push(introduction);
     
@@ -260,12 +264,12 @@
     var consent = {
       type: jsPsychHtmlButtonResponse,
       stimulus: '<embed src="files/consent.pdf" width="800px" height="800px" /><br></br> ',
-      choices: ['I agree']
+      choices: ['I agree'],
     };
     timeline.push(consent);
 
     var instructions = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: jsPsychHtmlButtonResponse,
       stimulus: '<div style="text-align: left;"> \
                   <p><b>Instructions!</b><br><br>In this part of the study, you are asked to compare word pairs and to rate how <i>similar</i> they are on a scale from 0 to 6. <br>Below, we are providing some examples to help you differentiate the concept of <i>similarity</i> from synonymous and related words.\
                     <br><br> Two words are <i>synonymous</i> if they have very similar meaning. Synonyms represent the same <i>type</i> or <i>category</i> of a thing. Here are some examples of synonym pairs.\
@@ -290,7 +294,11 @@
                     <br><br>If you are ever unsure, think back to the examples of synonym pairs (glassess / spectacles), and consider how close the words are (or are not) to being synonymous.\
                     <br><br>There is no right answer to these questions. It is perfectly reasonable to use your intuition or gut feeling as a native English speaker, especially when you are asked to rate word pairs that you think are not similar at all.\
                      <br><br><b>Press the space bar to begin the study.</b></p>',
-      choices: [" "],
+      choices: ['I agree'],
+      on_start: function() {
+        // set progress bar to 0 at the start of experiment
+        jsPsych.setProgressBar(0);
+      },
     };
     timeline.push(instructions);
     
@@ -323,7 +331,7 @@
               <p>6</p>
             </div>
           `
-
+        
         
         for (var i = 0; i < pageEntry.length; i++) {
           var trialData = pageEntry[i];
@@ -429,7 +437,17 @@
             document.getElementById('next-button').addEventListener('click', function () {
                 jsPsych.finishTrial();
             });
+            
+        },
+      
+        on_finish: function() {
+        // at the end of each trial, update the progress bar
+        // based on the current value and the proportion to update for each trial
+        var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
+        jsPsych.setProgressBar(curr_progress_bar_value + (1/12));
         }
+       
+        
     };
 
 
