@@ -84,7 +84,7 @@
 
       #rate_text{
         /* Adjust this for the top text aksing to rate words */
-        font-size: smaller;
+        font-size: 20px;
       }
       /* Container for the less and more similar text */
       .similar-container{
@@ -154,6 +154,7 @@
 
         show_progress_bar: true,
         auto_update_progress_bar: false,
+        message_progress_bar: '',
         
         on_finish: function() {
           var jsonData = jsPsych.data.get().json(true);
@@ -250,8 +251,8 @@
 
     var introduction = {
       type: jsPsychHtmlButtonResponse,
-      stimulus: '<p><b>Welcome to the experiment!</b></p><p>Thank you for your interest in participating in this study. On the next page, you will see a consent form. Please read the form and indicate if you agree to participate. If you agree to participate, the whole study should take about 30 minutes. The study consists of two parts. You will get the link for the second half at the end of this half. Please press the space bar to proceed. The study will continue in the fullscreen mode</p>',
-      choices: ['I agree'],
+      stimulus: '<p><b>Welcome to the experiment!</b></p><p>Thank you for your interest in participating in this study. On the next page, you will see a consent form. Please read the form and indicate if you agree to participate. If you agree to participate, the whole study should take about 30 minutes. The study consists of two parts. You will get the link for the second half at the end of this half.</p>',
+      choices: ['Continue'],
     };
     timeline.push(introduction);
     
@@ -268,39 +269,55 @@
     };
     timeline.push(consent);
 
-    var instructions = {
+    var instructions_first = {
       type: jsPsychHtmlButtonResponse,
       stimulus: '<div style="text-align: left;"> \
-                  <p><b>Instructions!</b><br><br>In this part of the study, you are asked to compare word pairs and to rate how <i>similar</i> they are on a scale from 0 to 6. <br>Below, we are providing some examples to help you differentiate the concept of <i>similarity</i> from synonymous and related words.\
-                    <br><br> Two words are <i>synonymous</i> if they have very similar meaning. Synonyms represent the same <i>type</i> or <i>category</i> of a thing. Here are some examples of synonym pairs.\
-                    <ul> \
-                      <li><i>cup / mug</i></li> \
-                      <li><i>glasses / spectacles</i></li> \
-                      <li><i>envy / jealousy</i></li> \
-                    </ul>\
-                    <br> In practice, word pairs that are not synonymous may still be very <i>similar</i>. Here are some very similar pairs, we could say they are nearly synonymous.\
-                    <ul> \
-                      <li><i>alligator / crocodile</i></li> \
-                      <li><i>love / affection</i></li> \
-                      <li><i>frog / toad</i></li> \
-                    </ul> \
-                    <br>In contrast, although the following word pairs are <i>related</i>, they are not very similar. The words represent entirely different types of things.\
-                    <ul> \
-                      <li><i>car / tyre</i></li> \
-                      <li><i>car / motorway</i></li> \
-                      <li><i>car / crash</i></li> \
-                    </ul>\
-                    <br>In this study, you are asked to compare the words and to rate how <b><i>similar</b></i> they are. Remember, things that are related are not necessarily similar.\
-                    <br><br>If you are ever unsure, think back to the examples of synonym pairs (glassess / spectacles), and consider how close the words are (or are not) to being synonymous.\
-                    <br><br>There is no right answer to these questions. It is perfectly reasonable to use your intuition or gut feeling as a native English speaker, especially when you are asked to rate word pairs that you think are not similar at all.\
-                     <br><br><b>Press the space bar to begin the study.</b></p>',
-      choices: ['I agree'],
+                  <p><b>Instructions!</b><br><br>In this part of the study, you are asked to compare word pairs and to rate how <i>similar</i> they are on a scale from 0 to 6. <br><br>On the next page, we are providing some examples to help you differentiate the concept of <i>similarity</i> from synonymous and related words.\
+                    </b></p>',
+      choices: ['Continue'],
       on_start: function() {
         // set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar(0);
       },
     };
-    timeline.push(instructions);
+    timeline.push(instructions_first);
+
+    var instructions_second = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: '<div style="text-align: left;"> \
+                  <p>Two words are <b><i>synonymous</i></b> if they have very similar meaning. Synonyms represent the same <i>type</i> or <i>category</i> of a thing. Here are some examples of synonym pairs.\
+                    <ul> \
+                      <li><i>cup / mug</i></li> \
+                      <li><i>glasses / spectacles</i></li> \
+                      <li><i>envy / jealousy</i></li> \
+                    </ul>\
+                    <br> In practice, word pairs that are not synonymous may still be very <b><i>similar</i></b>. Here are some very similar pairs, we could say they are nearly synonymous.\
+                    <ul> \
+                      <li><i>alligator / crocodile</i></li> \
+                      <li><i>love / affection</i></li> \
+                      <li><i>frog / toad</i></li> \
+                    </ul> \
+                    <br>In contrast, although the following word pairs are <b><i>related</i></b>, they are not very similar. The words represent entirely different types of things.\
+                    <ul> \
+                      <li><i>car / tyre</i></li> \
+                      <li><i>car / motorway</i></li> \
+                      <li><i>car / crash</i></li> \
+                    </ul>\
+                    <br>In this study, you are asked to compare the words and to rate how <b><i>similar</i></b> they are. Remember, things that are related are not necessarily similar.</p>',
+      choices: ['Continue']
+    }
+    timeline.push(instructions_second);
+
+
+    var instructions_third = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: '<div style="text-align: left;"> \
+                  <p>If you are ever unsure, think back to the examples of synonym pairs (glassess / spectacles), and consider how close the words are (or are not) to being synonymous.\
+                    <br><br>There is no right answer to these questions. It is perfectly reasonable to use your intuition or gut feeling as a native English speaker, especially when you are asked to rate word pairs that you think are not similar at all.\
+                     <br><br><b>The study will begin once you press the "Continue" button once you have read and undesrstood the instructions.</b></p>',
+      choices: ['Continue']
+    }
+    timeline.push(instructions_third);
     
     var trial = {
       type: jsPsychHtmlKeyboardResponse, 
@@ -311,7 +328,7 @@
         
         htmlContent += `<div class="header">
             
-            <p id="rate_text">Rate the following pairs according to how similar they are by moving the slider</p>
+            <p id="rate_text">Rate the following pairs according to how similar they are by moving the slider.</p>
             <div class ="similar-container">
               <p id='left-similar'>Less Similar</p>
               <p id='right-similar'>More Similar</p>
@@ -379,7 +396,7 @@
           htmlContent += '<button id="next-button">Next</button>';
           return htmlContent;
         },
-        prompt: '<p>Please fill all sliders before proceeding to the next page.</p>',
+        prompt: '<p>Please rate all word pairs before proceeding to the next page.</p>',
         on_load : function (data) {
           document.getElementById('next-button').disabled = true; 
           var sliders = document.querySelectorAll('.slider-input');
