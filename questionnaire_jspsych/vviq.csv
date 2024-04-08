@@ -1,0 +1,17 @@
+item_id,item,category,questionnaire
+vviq-1,"The exact contour of face, head, shoulders, and body",visual,vviq
+vviq-2,"Characteristic poses of head, attitudes of body, etc.",visual,vviq
+vviq-3,"The precise carriage, length of step, etc. in walking",visual,vviq
+vviq-4,The different colors worn in some familiar clothes,visual,vviq
+vviq-5,The sun is rising above the horizon into a hazy sky.,visual,vviq
+vviq-6,The sky clears and surrounds the sun with blueness.,visual,vviq
+vviq-7,"Clouds. A storm blows up, with flashes of lightening.",visual,vviq
+vviq-8,A rainbow appears.,visual,vviq
+vviq-9,The overall appearance of the shop from the opposite side of the road,visual,vviq
+vviq-10,"A window display including colors, shape, and details of individual items for sale",visual,vviq
+vviq-11,"You are near the entrance. The color, shape, and details of the door",visual,vviq
+vviq-12,You enter the shop and go to the counter. The counter assistant serves you. Money changes hands.,visual,vviq
+vviq-13,The contours of the landscape,visual,vviq
+vviq-14,The color and shape of the trees,visual,vviq
+vviq-15,The color and shape of the lake,visual,vviq
+vviq-16,A strong wind blows on the tree and on the lake causing waves.,visual,vviq

@@ -1,0 +1,210 @@
+[
+  {
+    "item_id": "irq-verbal-8",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-ortho-6",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-verbal-9",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-manipulation-8",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "irq-verbal-2",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-manipulation-2",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-verbal-3",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-visual-2",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "irq-visual-1",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-verbal-7",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-verbal-6",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-visual-8",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "irq-verbal-4",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-verbal-12",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-ortho-1",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-visual-3",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "irq-manipulation-7",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-verbal-5",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-visual-5",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-manipulation-3",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "irq-verbal-11",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-manipulation-1",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-visual-4",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-visual-7",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "irq-ortho-3",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-visual-6",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-verbal-10",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-visual-10",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "irq-visual-9",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-verbal-1",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-ortho-4",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-ortho-5",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "irq-manipulation-4",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-manipulation-5",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-manipulation-6",
+    "Response 1": 3
+  },
+  {
+    "item_id": "irq-ortho-2",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "vviq-1",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-2",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-3",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-4",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "vviq-5",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-6",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-7",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-8",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "vviq-9",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-10",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-11",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-12",
+    "Response 1": "No response"
+  },
+  {
+    "item_id": "vviq-13",
+    "Response 1": "Dim and vague image"
+  },
+  {
+    "item_id": "vviq-14",
+    "Response 1": "No image at all, I only "
+  },
+  {
+    "item_id": "vviq-15",
+    "Response 1": "Perfectly realistic, as vivid as real seeing"
+  },
+  {
+    "item_id": "vviq-16",
+    "Response 1": "No response"
+  }
+]
