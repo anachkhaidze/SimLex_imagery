@@ -28,6 +28,15 @@
     margin-bottom: 20px;
   }
 
+  .continue_end_tasks{
+    padding-bottom: 20px;
+  }
+
+  #jspsych-survey-multi-choice-next{
+     margin-bottom: 20px;
+  }
+  
+
 </style>
 </head>
 <body>
@@ -177,20 +186,27 @@
 
 
       // Define the thank you screen
+     
       var endTasks = {
         type: jsPsychHtmlButtonResponse,
         stimulus: '<p><b>End of tasks.</b><br><br>Thank you, you have completed all of the tasks.<br><br>You will now be asked a short series of questions about yourself and your thoughts about the experiment.</p>',
+        
         choices: ['Continue']
+        
       };
       timeline.push(endTasks);
 
 
 
+
       // Demographics and debrief questions
+      
       var demographicsDebriefQuestions = {
+      
         timeline: [
           {
             type: jsPsychSurveyMultiChoice,
+            
             questions: [
               {prompt: "Have you seen this study before?", options: ["Yes", "No"], required: true},
               {prompt: "What is your gender?", options: ["Woman", "Man", "Non-binary", "Prefer not to say", "Prefer to self-describe"], required: true},
@@ -200,6 +216,7 @@
               {prompt: "Are you a native English speaker?", options: ["Yes", "No"], required: true},
               {prompt: "What is the highest degree or level of school you have completed?", options: ["High School", "Bachelor's Degree", "Master's Degree", "Doctoral Degree"], required: true}
             ],
+            
           },
           {
             type: jsPsychSurveyMultiSelect, // Only this question uses the MultiSelect
