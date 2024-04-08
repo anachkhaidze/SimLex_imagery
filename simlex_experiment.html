@@ -7,9 +7,9 @@
     <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.3"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.3"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-survey-likert plugin@1.1.3"></script>
     <script src="https://unpkg.com/@jspsych/plugin-canvas-slider-response@1.1.3"></script>
-    <script src="https://unpkg.com/@multiSlider/plugin-canvas-slider-response@1.1.3"></script>
+    <script src="https://unpkg.com/@multislider/plugin-canvas-slider-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.3"></script>
     <script src="datasets/allTrials.js"></script>
     <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.0"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -168,13 +168,28 @@
           // pre.textContent = JSON.stringify(latestDocuments);
           // pre.style.textAlign = "left";
           // pre.textContent = JSON.stringify(latestDocuments, null, 2);
-          $(".jspsych-display-element").html("<div style='margin:2em;'> \
-          <p> You have now completed the first part of the study! Congratulations and thank you!\
-          Your results were recorded under the participant ID: <b>" + subject_id + "</b> \
-          <p><font size = 3><font color = red><b>Please, copy and write down your participant ID as you will have to use it at the beginning and end of the next part of the study. If you don't use this ID, we won't be able to record your response.</b></font></p> \
-          <p> Click on the link to move to the next part and to make sure your participation is recorded. You won't be awarded credit if you don't finish both parts. <a href='https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe' target='_blank'>https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe</a> <p></p>You will get SONA participation code at the end of the next part. <p> \
-          </p><p>If you have any questions, please contact Ana Chkhaidze at achkhaid@ucsd.edu\
-          <div>");
+          // $(".jspsych-display-element").html("<div style='margin:2em;'> \
+          // <p> You have now completed the first part of the study! Congratulations and thank you!\
+          // Your results were recorded under the participant ID: <b>" + subject_id + "</b> \
+          // <p><font size = 3><font color = red><b>Please, copy and write down your participant ID as you will have to use it at the beginning and end of the next part of the study. If you don't use this ID, we won't be able to record your response.</b></font></p> \
+          // <p> Click on the link to move to the next part and to make sure your participation is recorded. You won't be awarded credit if you don't finish both parts. <a href='https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe' target='_blank'>https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe</a> <p></p>You will get SONA participation code at the end of the next part. <p> \
+          // </p><p>If you have any questions, please contact Ana Chkhaidze at achkhaid@ucsd.edu\
+          // <div>");
+
+          // Embedding the continue button within the thank-you message
+          var messageHtml = `
+              <div style='text-align: center; margin: 2em;'>
+                  <p>Thank you for participating in the first part of the study. Congratulations and thank you!</p>
+                  <p>Your results were recorded under the participant ID: <b>${subject_id}</b></p>
+                  <p><b>Please, copy and write down your participant ID as you will have to use it at the beginning and end of the next part of the study. If you don't use this ID, we won't be able to record your response.</b></p>
+                  <p>Click on the button to move to the next part and to make sure your participation is recorded. You won't be awarded credit if you don't finish both parts.</p>
+                  <button onclick="window.location.href='https://chkhaidze.ucsd.edu/questionnaires/questionnaires_demo.html?subject_id=${subject_id}';" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #2980b9; color: white; cursor: pointer;">Continue to the next part</button>
+              </div>
+          `;
+
+          // Replace the body's inner HTML with the message and styled continue button
+          document.body.innerHTML = messageHtml;
+
         },
         experiment_width: 775 /* added this to make it larger without the overflow issue */
       });
