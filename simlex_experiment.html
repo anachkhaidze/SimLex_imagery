@@ -185,14 +185,12 @@
           // Embedding the continue button within the thank-you message
           var messageHtml = `
               <div style='text-align: center; margin: 2em;'>
-                  <p>Thank you for participating in the first part of the study. Congratulations and thank you!</p>
-                  <p>Your results were recorded under the participant ID: <b>${subject_id}</b></p>
-                  <p><b>Please, copy and write down your participant ID as you will have to use it at the beginning and end of the next part of the study. If you don't use this ID, we won't be able to record your response.</b></p>
+                  <p>Thank you for participating in the first part of the study.</p>
                   <p>Click on the button to move to the next part and to make sure your participation is recorded. You won't be awarded credit if you don't finish both parts.</p>
-                  <button onclick="window.location.href='https://chkhaidze.ucsd.edu/questionnaires/questionnaires_demo.html?subject_id=${subject_id}&sona_id=' + sona_id;" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #2980b9; color: white; cursor: pointer;">Continue to the next part</button>
+                  <button onclick="window.location.href='https://chkhaidze.ucsd.edu/questionnaires/questionnaires.html?subject_id=${subject_id}&sona_id=' + sona_id;" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #2980b9; color: white; cursor: pointer;">Continue to the next part</button>
               </div>
           `;
-
+          
           // Replace the body's inner HTML with the message and styled continue button
           document.body.innerHTML = messageHtml;
 
