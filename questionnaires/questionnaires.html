@@ -11,6 +11,7 @@
   <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.1.3"></script>
   <script src="https://unpkg.com/@jspsych/plugin-survey-multi-select@1.1.3"></script>
   <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.3"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.0"></script>
   <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.1"></script>
   <script src="questionnaires.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.0.2/papaparse.min.js"></script>
@@ -104,8 +105,23 @@
           return reshapedData;
       }
 
-          
+       
 
+      var introduction = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<p><b>Welcome to the second part of the study!</b></p><p>In this part, you will read some statements and report how much you agree/disagree with them.</p>',
+        choices: ['Continue'],
+      };
+      timeline.push(introduction);
+    
+     
+     var enter_fullscreen = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: true
+      }
+      timeline.push(enter_fullscreen);
+
+        
       // Shuffle the items array
       function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -220,7 +236,7 @@
      
       var endTasks = {
         type: jsPsychHtmlButtonResponse,
-        stimulus: '<p><b>End of tasks.</b><br><br>Thank you, you have completed all of the tasks.<br><br>You will now be asked a short series of questions about yourself and your thoughts about the experiment.</p>',
+        stimulus: '<p><b>Almost done!</b><br><br>Thank you, you have completed all of the tasks.<br><br>You will now be asked a short series of questions about yourself and your thoughts about the experiment.</p>',
         
         choices: ['Continue']
         
@@ -270,6 +286,15 @@
       };
       timeline.push(demographicsDebriefQuestions);
 
+      var endExperiment = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<p><b>The End!</b><br><br>Thank you, you have completed the study.<br><br>Press next to be redirected back to SONA and receive credit for participation.</p>',
+        
+        choices: ['Continue']
+        
+      };
+      timeline.push(endExperiment);
+
       const jsPsych = initJsPsych({
           timeline: timeline,
           on_finish: function() {
@@ -287,6 +312,14 @@
             subject: subject_id,
             sona_id: sona_id
           });
+
+
+      var exit_fullscreen = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: false,
+        delay_after: 0
+      }
+      timeline.push(exit_fullscreen);
 
 
       // Run the experiment
