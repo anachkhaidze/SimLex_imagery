@@ -170,7 +170,7 @@
           var messageHtml = `
               <div style='text-align: center; margin: 2em;'>
                   <p>You have now completed the first part of the study.</p>
-                  <p>Click 'Continue' to move to the next part. Your participation will be recorded once you finish the second half of the study.</p>
+                  <p>Click 'Continue' to proceed to the next part. Your participation will be recorded after you finish the second half.</p>
                   <button onclick="window.location.href='https://chkhaidze.ucsd.edu/questionnaires/questionnaires.html?subject_id=${subject_id}&sona_id=' + sona_id;" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #2980b9; color: white; cursor: pointer;">Continue to the next part</button>
               </div>
           `;
@@ -252,7 +252,7 @@
 
     var introduction = {
       type: jsPsychHtmlButtonResponse,
-      stimulus: '<p><b>Welcome to the experiment!</b></p><p>Thank you for your interest in participating in this study. On the next page, you will see a consent form. Please read the form and indicate if you agree to participate. If you agree to participate, the whole study should take about 30 minutes. The study consists of two parts. You will get the link for the second half at the end of this half.</p>',
+      stimulus: '<p><b>Welcome to the experiment!</b></p><p>Thank you for your interest. On the next page, you will find a consent form. Please read it and indicate if you agree to participate. The entire study takes approximately 30 minutes and is divided in two parts.</p>',
       choices: ['Continue'],
     };
     timeline.push(introduction);
@@ -286,7 +286,7 @@
     var instructions_second = {
       type: jsPsychHtmlButtonResponse,
       stimulus: '<div style="text-align: left;"> \
-                  <p>Two words are <b><i>synonymous</i></b> if they have very similar meaning. Synonyms represent the same <i>type</i> or <i>category</i> of a thing. Here are some examples of synonym pairs.\
+                  <p><b>Instructions: Part II</b><br><br>Two words are <b><i>synonymous</i></b> if they have very similar meaning. Synonyms represent the same <i>type</i> or <i>category</i> of a thing. Here are some examples of synonym pairs.\
                     <ul> \
                       <li><i>cup / mug</i></li> \
                       <li><i>glasses / spectacles</i></li> \
@@ -313,7 +313,7 @@
     var instructions_third = {
       type: jsPsychHtmlButtonResponse,
       stimulus: '<div style="text-align: left;"> \
-                  <p>If you are ever unsure, think back to the examples of synonym pairs (glassess / spectacles), and consider how close the words are (or are not) to being synonymous.\
+                  <p><b>Instructions: Part III</b><br><br>If you are ever unsure, think back to the examples of synonym pairs (glassess / spectacles), and consider how close the words are (or are not) to being synonymous.\
                     <br><br>There is no right answer to these questions. It is perfectly reasonable to use your intuition or gut feeling as a native English speaker, especially when you are asked to rate word pairs that you think are not similar at all.\
                      <br><br><b>The study will begin once you press the "Continue" button once you have read and undesrstood the instructions.</b></p>',
       choices: ['Continue']
