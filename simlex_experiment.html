@@ -45,9 +45,6 @@
 
       .math-inline{
         margin-right: 10px; /* Added more space between pairs and slider*/
-        
-        
-
       }
       
       /* Ensure all sliders have the same width */
@@ -126,7 +123,8 @@
     </style>
   </head>
   <body>
-    <div id="slider-container"></div>
+  
+  <div id="slider-container"></div>
 
   <script>
     let urlParams = new URLSearchParams(window.location.search);
@@ -167,26 +165,12 @@
           const latestDocuments = getLatestDocuments(jsonData);
           var filename = "simLex_" + subject_id + ".json";
           saveData(filename, latestDocuments);
-          // console.log(latestDocuments.length);
-          // var pre = document.createElement('pre');
-          // pre.style.maxHeight = "500px";
-          // pre.style.overflowY = "scroll";
-          // pre.textContent = JSON.stringify(latestDocuments);
-          // pre.style.textAlign = "left";
-          // pre.textContent = JSON.stringify(latestDocuments, null, 2);
-          // $(".jspsych-display-element").html("<div style='margin:2em;'> \
-          // <p> You have now completed the first part of the study! Congratulations and thank you!\
-          // Your results were recorded under the participant ID: <b>" + subject_id + "</b> \
-          // <p><font size = 3><font color = red><b>Please, copy and write down your participant ID as you will have to use it at the beginning and end of the next part of the study. If you don't use this ID, we won't be able to record your response.</b></font></p> \
-          // <p> Click on the link to move to the next part and to make sure your participation is recorded. You won't be awarded credit if you don't finish both parts. <a href='https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe' target='_blank'>https://ucsd.co1.qualtrics.com/jfe/form/SV_42wfryKTZ2aBsoe</a> <p></p>You will get SONA participation code at the end of the next part. <p> \
-          // </p><p>If you have any questions, please contact Ana Chkhaidze at achkhaid@ucsd.edu\
-          // <div>");
 
           // Embedding the continue button within the thank-you message
           var messageHtml = `
               <div style='text-align: center; margin: 2em;'>
-                  <p>Thank you for participating in the first part of the study.</p>
-                  <p>Click on the button to move to the next part and to make sure your participation is recorded. You won't be awarded credit if you don't finish both parts.</p>
+                  <p>You have now completed the first part of the study.</p>
+                  <p>Click 'Continue' to move to the next part. Your participation will be recorded once you finish the second half of the study.</p>
                   <button onclick="window.location.href='https://chkhaidze.ucsd.edu/questionnaires/questionnaires.html?subject_id=${subject_id}&sona_id=' + sona_id;" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #2980b9; color: white; cursor: pointer;">Continue to the next part</button>
               </div>
           `;
@@ -491,12 +475,12 @@
     };
     timeline.push(test_procedure);
 
-    var finalTrial = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: '<p>You have now completed the first part of the study! Congratulations and thank you! Click continue to move to the next part.<br><br></p>',
-    choices: ['Continue'],
-    };
-    timeline.push(finalTrial);
+    // var finalTrial = {
+    //   type: jsPsychHtmlButtonResponse,
+    //   stimulus: '<p>You have now completed the first part of the study! Congratulations and thank you! Click continue to move to the next part.<br><br></p>',
+    //   choices: ['Continue'],
+    // };
+    // timeline.push(finalTrial);
 
     var exit_fullscreen = {
       type: jsPsychFullscreen,
