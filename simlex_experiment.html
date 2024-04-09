@@ -129,6 +129,11 @@
     <div id="slider-container"></div>
 
   <script>
+    let urlParams = new URLSearchParams(window.location.search);
+    let sona_id = urlParams.get('sona_id'); // Retrieves SONA ID from URL
+    /* generate a random subject ID with 8 characters */
+
+
     function saveData(name, data){
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'write_data.php');
@@ -150,6 +155,7 @@
 
     document.addEventListener('DOMContentLoaded', (event) => {
       // initialize jsPsych
+
       var jsPsych = initJsPsych({
 
         show_progress_bar: true,
@@ -183,7 +189,7 @@
                   <p>Your results were recorded under the participant ID: <b>${subject_id}</b></p>
                   <p><b>Please, copy and write down your participant ID as you will have to use it at the beginning and end of the next part of the study. If you don't use this ID, we won't be able to record your response.</b></p>
                   <p>Click on the button to move to the next part and to make sure your participation is recorded. You won't be awarded credit if you don't finish both parts.</p>
-                  <button onclick="window.location.href='https://chkhaidze.ucsd.edu/questionnaires/questionnaires_demo.html?subject_id=${subject_id}';" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #2980b9; color: white; cursor: pointer;">Continue to the next part</button>
+                  <button onclick="window.location.href='https://chkhaidze.ucsd.edu/questionnaires/questionnaires_demo.html?subject_id=${subject_id}&sona_id=' + sona_id;" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #2980b9; color: white; cursor: pointer;">Continue to the next part</button>
               </div>
           `;
 
@@ -196,6 +202,8 @@
     var entries = [];
           
     var timeline = [];
+
+    var subject_id = jsPsych.randomization.randomID(8);
     
     
     /* pick a random list for the subject at the start of the experiment */
@@ -213,10 +221,6 @@
       'List 10',
     ],1)[0];
     console.log("Randomly selected list_assignment:", list_assignment);
-
-    
-    /* generate a random subject ID with 8 characters */
-    var subject_id = jsPsych.randomization.randomID(8);
 
   
     generateTrials = function() {
