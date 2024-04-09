@@ -84,6 +84,12 @@ var irq = [
     "questionnaire": "irq"
   },
   {
+    "item_id": "irq-ortho-7",
+    "item": "I rehearse in my mind how someone might respond to a text message before I send it.",
+    "category": "orthographic",
+    "questionnaire": "irq"
+  },
+  {
     "item_id": "irq-verbal-1",
     "item": "When I think about someone I know well, I instantly hear their voice in my mind.",
     "category": "verbal",
@@ -214,13 +220,19 @@ var irq = [
     "item": "If I imagine my memories visually they are more often static than moving.",
     "category": "visual",
     "questionnaire": "irq"
+  },
+  {
+    "item_id": "irq-catch-1",
+    "item": "The word ‘hotel’ has three letters.",
+    "category": "catch",
+    "questionnaire": "irq"
   }
 ]
 
 var osivq = [
   {
     "item_id": "osviq-object-1",
-    "item": "My images are very colourful and bright.",
+    "item": "My mental images are very colourful and bright.",
     "category": "visual",
     "questionnaire": "osivq"
   },
@@ -256,7 +268,7 @@ var osivq = [
   },
   {
     "item_id": "osviq-object-7",
-    "item": "My images are very vivid and photographic.",
+    "item": "My mental images are very vivid and photographic.",
     "category": "visual",
     "questionnaire": "osivq"
   },
@@ -280,7 +292,7 @@ var osivq = [
   },
   {
     "item_id": "osviq-object-11",
-    "item": "Sometimes my images are so vivid and persistent that it is difficult to ignore them.",
+    "item": "Sometimes my mental images are so vivid and persistent that it is difficult to ignore them.",
     "category": "visual",
     "questionnaire": "osivq"
   },
@@ -334,7 +346,7 @@ var osivq = [
   },
   {
     "item_id": "osviq-spatial-5",
-    "item": "My images are more like schematic representations of things and events rather than like detailed pictures.",
+    "item": "My mental images are more like schematic representations of things and events rather than like detailed pictures.",
     "category": "spatial",
     "questionnaire": "osivq"
   },
@@ -382,7 +394,7 @@ var osivq = [
   },
   {
     "item_id": "osviq-spatial-13",
-    "item": "My images are more schematic than colourful and pictorial.",
+    "item": "My mental images are more schematic than colourful and pictorial.",
     "category": "spatial",
     "questionnaire": "osivq"
   },
@@ -486,6 +498,18 @@ var osivq = [
     "item_id": "osviq-verbal-15",
     "item": "I sometimes have a problem expressing exactly what I want to say.",
     "category": "verbal",
+    "questionnaire": "osivq"
+  },
+  {
+    "item_id": "osivq-catch-2",
+    "item": "Elephants are larger than dogs.",
+    "category": "catch",
+    "questionnaire": "osivq"
+  },
+  {
+    "item_id": "osivq-catch-2",
+    "item": "Most people have five legs.",
+    "category": "catch",
     "questionnaire": "osivq"
   }
 ]

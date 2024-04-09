@@ -109,7 +109,7 @@
 
       var introduction = {
         type: jsPsychHtmlButtonResponse,
-        stimulus: '<p><b>Welcome to the second part of the study!</b></p><p>In this part, you will read some statements and report how much you agree/disagree with them.</p>',
+        stimulus: '<p><b>Welcome to the second part of the study!</b></p><p>In this section, you will be presented with a series of statements. Please indicate your level of agreement or disagreement with each one.</p>',
         choices: ['Continue'],
       };
       timeline.push(introduction);
@@ -130,31 +130,6 @@
         }
       }
 
-      shuffleArray(irq); // Shuffle the items initially
-
-      /// Function to generate a trial for a chunk of items
-      function generateIrqTrial(itemsChunk) {
-        return {
-          type: jsPsychSurveyLikert,
-          questions: itemsChunk.map(item => ({
-            prompt: item.item,
-            labels: ['1', '2', '3', '4', '5'],
-            required: true
-          })),
-          on_finish: function(data) {
-            data.item_ids = itemsChunk.map(i => i.item_id);
-            data.items = itemsChunk.map(i => i.item);
-            data.categories = itemsChunk.map(i => i.category);
-            data.questionnaires = itemsChunk.map(i => i.questionnaire);
-          }
-        };
-      }
-
-      // Chunk items into groups of 4 and add to timeline
-      while (irq.length > 0) {
-        let itemsChunk = irq.splice(0, 4); // Get next chunk of 4 items
-        timeline.push(generateIrqTrial(itemsChunk));
-      }
 
       // Shuffle the osivq array
       shuffleArray(osivq);
@@ -180,9 +155,36 @@
 
       // Chunk osivq items into groups of 5 and add to timeline
       while (osivq.length > 0) {
-        let itemsChunk = osivq.splice(0, 5); // Get next chunk of 5 items
+        let itemsChunk = osivq.splice(0, 6); // Get next chunk of 5 items
         timeline.push(generateOsivqTrial(itemsChunk));
       }
+
+      shuffleArray(irq); // Shuffle the items initially
+
+      /// Function to generate a trial for a chunk of items
+      function generateIrqTrial(itemsChunk) {
+        return {
+          type: jsPsychSurveyLikert,
+          questions: itemsChunk.map(item => ({
+            prompt: item.item,
+            labels: ['1', '2', '3', '4', '5'],
+            required: true
+          })),
+          on_finish: function(data) {
+            data.item_ids = itemsChunk.map(i => i.item_id);
+            data.items = itemsChunk.map(i => i.item);
+            data.categories = itemsChunk.map(i => i.category);
+            data.questionnaires = itemsChunk.map(i => i.questionnaire);
+          }
+        };
+      }
+
+      // Chunk items into groups of 4 and add to timeline
+      while (irq.length > 0) {
+        let itemsChunk = irq.splice(0, 5); // Get next chunk of 4 items
+        timeline.push(generateIrqTrial(itemsChunk));
+      }
+
 
       // Define the thank you screen
       var thankYouScreen = {
