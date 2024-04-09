@@ -256,12 +256,6 @@
       choices: ['Continue'],
     };
     timeline.push(introduction);
-    
-    var enter_fullscreen = {
-      type: jsPsychFullscreen,
-      fullscreen_mode: true
-    }
-    timeline.push(enter_fullscreen);
 
     var consent = {
       type: jsPsychHtmlButtonResponse,
@@ -269,6 +263,12 @@
       choices: ['I agree'],
     };
     timeline.push(consent);
+
+    var enter_fullscreen = {
+      type: jsPsychFullscreen,
+      fullscreen_mode: true
+    }
+    timeline.push(enter_fullscreen);
 
     var instructions_first = {
       type: jsPsychHtmlButtonResponse,
@@ -315,7 +315,7 @@
       stimulus: '<div style="text-align: left;"> \
                   <p><b>Instructions: Part III</b><br><br>If you are ever unsure, think back to the examples of synonym pairs (glassess / spectacles), and consider how close the words are (or are not) to being synonymous.\
                     <br><br>There is no right answer to these questions. It is perfectly reasonable to use your intuition or gut feeling as a native English speaker, especially when you are asked to rate word pairs that you think are not similar at all.\
-                     <br><br><b>The study will begin once you press the "Continue" button once you have read and undesrstood the instructions.</b></p>',
+                     <br><br><b>Once you have read and understood the instructions, press "Continue" and the study will begin..</b></p>',
       choices: ['Continue']
     }
     timeline.push(instructions_third);
