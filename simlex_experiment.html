@@ -273,7 +273,7 @@
     var instructions_first = {
       type: jsPsychHtmlButtonResponse,
       stimulus: '<div style="text-align: left;"> \
-                  <p><b>Instructions!</b><br><br>In this part of the study, you are asked to compare word pairs and to rate how <i>similar</i> they are on a scale from 0 to 6. <br><br>On the next page, we are providing some examples to help you differentiate the concept of <i>similarity</i> from synonymous and related words.\
+                  <p><b>Instructions!</b><br><br>In this part of the study, you will compare word pairs and rate their <i>similarity</i> on a scale from 0 to 6. <br><br>On the next page, we provide examples to help distinguish <i>similarity</i> from synonymy and relatedness.\
                     </b></p>',
       choices: ['Continue'],
       on_start: function() {
@@ -313,9 +313,9 @@
     var instructions_third = {
       type: jsPsychHtmlButtonResponse,
       stimulus: '<div style="text-align: left;"> \
-                  <p><b>Instructions: Part III</b><br><br>If you are ever unsure, think back to the examples of synonym pairs (glassess / spectacles), and consider how close the words are (or are not) to being synonymous.\
-                    <br><br>There is no right answer to these questions. It is perfectly reasonable to use your intuition or gut feeling as a native English speaker, especially when you are asked to rate word pairs that you think are not similar at all.\
-                     <br><br><b>Once you have read and understood the instructions, press "Continue" and the study will begin..</b></p>',
+                  <p><b>Instructions: Part III</b><br><br>If you are ever unsure, think back to the examples of synonym pairs (glasses / spectacles), and consider how close the words are (or are not) to being synonymous.\
+                    <br><br>Remember, there are no right or wrong answers to these questions. It is perfectly reasonable to rely on your intuition or gut feeling as a native English speaker, especially when rating word pairs that you think are not similar at all.\
+                     <br><br><b>Once you have read and understood the instructions, press "Continue" to begin the study.</b></p>',
       choices: ['Continue']
     }
     timeline.push(instructions_third);
@@ -329,7 +329,7 @@
         
         htmlContent += `<div class="header">
             
-            <p id="rate_text">Rate the following pairs according to how similar they are by moving the slider.</p>
+            <p id="rate_text">Rate the similarity of the following pairs by moving the slider.</p>
             <div class ="similar-container">
               <p id='left-similar'>Less Similar</p>
               <p id='right-similar'>More Similar</p>
@@ -397,7 +397,7 @@
           htmlContent += '<button id="next-button">Next</button>';
           return htmlContent;
         },
-        prompt: '<p>Please rate all word pairs before proceeding to the next page.</p>',
+        prompt: '<p>Please ensure all word pairs are rated before moving to the next page.</p>',
         on_load : function (data) {
           document.getElementById('next-button').disabled = true; 
           var sliders = document.querySelectorAll('.slider-input');
