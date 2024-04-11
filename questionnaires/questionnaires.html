@@ -29,14 +29,22 @@
     margin-bottom: 20px;
   }
 
-  .continue_end_tasks{
-    padding-bottom: 20px;
+  /*Add some space from the bottom of likert button*/
+  #jspsych-survey-likert-next{
+    margin-bottom: 20px;
   }
 
-  #jspsych-survey-multi-choice-next{
-     margin-bottom: 20px;
+  /*Keep likert scales consistent for each page using width*/
+  #jspsych-survey-likert-form{
+    display: inline-block;
+    width: 700px;
+    max-width: 700px;;
   }
-  
+
+  /*Add some space from the bottom of vviq button*/
+  #jspsych-survey-multi-choice-next{
+    margin-bottom: 20px;
+  }
 
 </style>
 </head>
@@ -111,6 +119,11 @@
         type: jsPsychHtmlButtonResponse,
         stimulus: '<p><b>Welcome to the second part of the study!</b></p><p>In this section, you will be presented with a series of statements. Please indicate your level of agreement or disagreement with each one.</p>',
         choices: ['Continue'],
+
+        on_start: function() {
+        // set progress bar to 0 at the start of experiment
+        jsPsych.setProgressBar(0);
+        },
       };
       timeline.push(introduction);
     
@@ -149,6 +162,11 @@
             data.items = itemsChunk.map(i => i.item);
             data.categories = itemsChunk.map(i => i.category);
             data.questionnaires = itemsChunk.map(i => i.questionnaire);
+
+            //set progress bar value
+            var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
+            jsPsych.setProgressBar(curr_progress_bar_value + (1/20));
+
           }
         };
       }
@@ -175,6 +193,11 @@
             data.items = itemsChunk.map(i => i.item);
             data.categories = itemsChunk.map(i => i.category);
             data.questionnaires = itemsChunk.map(i => i.questionnaire);
+
+            //set progress bar value
+            var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
+            jsPsych.setProgressBar(curr_progress_bar_value + (1/20));
+           
           }
         };
       }
@@ -229,6 +252,10 @@
                   data.items = itemsChunk.map(i => i.item);
                   data.categories = itemsChunk.map(i => i.category);
                   data.questionnaires = itemsChunk.map(i => i.questionnaire);
+
+                  //set progress bar value
+                  var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
+                  jsPsych.setProgressBar(curr_progress_bar_value + (1/20));
               }
           };
       }
@@ -299,6 +326,12 @@
 
       const jsPsych = initJsPsych({
           timeline: timeline,
+
+          //progress bar
+          show_progress_bar: true,
+          auto_update_progress_bar: false,
+          message_progress_bar: 'Progress on Part II',
+
           on_finish: function() {
               var reshapedData = reshapeDataAndDisplay(); // Get reshaped data
               var filename = "questionnaires_" + subject_id + ".json";
