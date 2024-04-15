@@ -10,12 +10,8 @@ with open("D:\kiyonaga\glove.6B.300d.txt", 'r', encoding='utf-8') as f:
         vector = np.array(values[1:], dtype='float32')
         glove[word] = vector
 
-simLex1 = pd.read_csv('D:\kiyonaga\SimLex_imagery\SimLex_dataset\simLex_list1.csv')
-simLex2 = pd.read_csv('D:\kiyonaga\SimLex_imagery\SimLex_dataset\simLex_list2.csv')
-lancaster_norms = pd.read_csv('D:\kiyonaga\SimLex_imagery\SimLex_dataset\lancaster_norms.csv')
-
-data = pd.concat([simLex1, simLex2], axis=0)
-data = data.reset_index(drop=True)
+data = pd.read_csv('D:\kiyonaga\SimLex_imagery\datasets\simLex.csv')
+lancaster_norms = pd.read_csv('D:\kiyonaga\SimLex_imagery\datasets\lancaster_norms.csv')
 
 lancaster_norms['Word'] = lancaster_norms['Word'].str.lower()
 sensory_columns = ['Word', 'Auditory.mean', 'Gustatory.mean', 'Haptic.mean','Interoceptive.mean', 'Olfactory.mean', 'Visual.mean']
@@ -30,7 +26,6 @@ nouns = data[data['POS'] == 'N'].index
 adjs = data[data['POS'] == 'A'].index
 verbs = data[data['POS'] == 'V'].index
 
-np.random.seed(0)
 nouns_indices = np.random.choice(nouns, 666, replace=False)
 adjs_indices = np.random.choice(adjs, 111, replace=False)
 verbs_indices = np.random.choice(verbs, 222, replace=False)
@@ -73,14 +68,14 @@ for i in range(11):
             'word2': word2,
             'POS': data.loc[index, 'POS'],
             'SimLex999': data.loc[index, 'SimLex999'],
-            'conc_word1': data.loc[index, 'conc_word1'],
-            'conc_word2': data.loc[index, 'conc_word2'],
+            'conc_word1': data.loc[index, 'conc(w1)'],
+            'conc_word2': data.loc[index, 'conc(w2)'],
             'concQ': data.loc[index, 'concQ'],
-            'assoc_usf': data.loc[index, 'assoc_usf'],
+            'assoc_usf': data.loc[index, 'Assoc(USF)'],
             'SimAssoc333': data.loc[index, 'SimAssoc333'],
-            'sd_simLex': data.loc[index, 'sd_simLex'],
+            'sd_simLex': data.loc[index, 'SD(SimLex)'],
             'stimulusID': data.loc[index, 'stimulusID'],
-            'stim': data.loc[index, 'stim'],
+            'stim': data.loc[index, 'stimulus'],
             'lanc_motor_sim': distance.cosine(word1_lanc_motor, word2_lanc_motor).round(3),
             'lanc_sensory_sim': distance.cosine(word1_lanc_sensory, word2_lanc_sensory).round(3),
             'lanc_sensorymotor_sim': distance.cosine(word1_lanc_sensorymotor, word2_lanc_sensorymotor).round(3),
@@ -96,12 +91,12 @@ for i in range(11):
             'word2': word,
             'POS': 'C',
             'SimLex999': data.loc[index, 'SimLex999'],
-            'conc_word1': data.loc[index, 'conc_word1'],
-            'conc_word2': data.loc[index, 'conc_word2'],
+            'conc_word1': data.loc[index, 'conc(w1)'],
+            'conc_word2': data.loc[index, 'conc(w2)'],
             'concQ': data.loc[index, 'concQ'],
-            'assoc_usf': data.loc[index, 'assoc_usf'],
+            'assoc_usf': data.loc[index, 'Assoc(USF)'],
             'SimAssoc333': data.loc[index, 'SimAssoc333'],
-            'sd_simLex': data.loc[index, 'sd_simLex'],
+            'sd_simLex': data.loc[index, 'SD(SimLex)'],
             'stimulusID': 1000 + random_stimulus_id,
             'stim': f'{word}/{word}',
             'lanc_motor_sim': distance.cosine(word1_lanc_motor, word2_lanc_motor).round(3),
@@ -134,8 +129,9 @@ for i in range(11):
             'attentionCheck': 2
         })
     experiment_word_pairs[f'List {i}'] = current_experiment
+    print(i, len(current_experiment))
                 
-with open('D:\\kiyonaga\\SimLex_imagery\\SimLex_dataset\\allTrials.js', 'w', encoding='utf-8') as f:
+with open('D:\\kiyonaga\\SimLex_imagery\\datasets\\allTrials.js', 'w', encoding='utf-8') as f:
     f.write('var simLexData = ')
     f.write(str(experiment_word_pairs))
     f.write(';')
