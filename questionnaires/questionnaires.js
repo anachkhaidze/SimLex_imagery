@@ -501,7 +501,7 @@ var osivq = [
     "questionnaire": "osivq"
   },
   {
-    "item_id": "osivq-catch-2",
+    "item_id": "osivq-catch-1",
     "item": "Elephants are larger than dogs.",
     "category": "catch",
     "questionnaire": "osivq"
