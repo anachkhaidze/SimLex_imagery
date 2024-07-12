@@ -100,7 +100,6 @@
         font-size: large;
         
       }
-
       
       /* adjusting less and more simlar to be in correct position */
       #left-similar{
@@ -116,10 +115,7 @@
         margin-bottom: -10px;
         margin-right: 20px;
         
-      }
-
-    
-    
+      }    
     </style>
   </head>
   <body>
@@ -225,6 +221,8 @@
         trialInfo[i].lanc_sensory_sim = trialInfo[i].lanc_sensory_sim
         trialInfo[i].lanc_sensorymotor_sim = trialInfo[i].lanc_sensorymotor_sim
         trialInfo[i].glove_sim = trialInfo[i].glove_sim
+        trialInfo[i].lanc_visual_sim = trialInfo[i].lanc_visual_sim
+        trialInfo[i].lanc_reduced_sim = trialInfo[i].lanc_reduced_sim
         trialInfo[i].attentionCheck = trialInfo[i].attentionCheck
       }
       trialInfo = jsPsych.randomization.shuffle(trialInfo);
@@ -386,6 +384,8 @@
                   data-lancsensorymotorsim=${trialData.lanc_sensorymotor_sim}
                   data-attentioncheck=${trialData.attentionCheck}
                   data-glovesim=${trialData.glove_sim}
+                  data-lancvisualsim=${trialData.lanc_visual_sim}
+                  data-lancreducedsim=${trialData.lanc_reduced_sim}
                   data-time=""
                >
                <span class="slider-value">3</span> <!-- Display initial slider value -->
@@ -434,6 +434,8 @@
                     lancsensorysim: this.dataset.lancsensorysim,
                     lancsensorymotorsim: this.dataset.lancsensorymotorsim,
                     glovesim: this.dataset.glovesim,
+                    lancvisualsim: this.dataset.lancvisualsim,
+                    lancreducedsim: this.dataset.lancreducedsim,
                     attentioncheck: this.dataset.attentioncheck                  
                 });
             });

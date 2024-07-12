@@ -10,17 +10,22 @@ with open("D:\kiyonaga\glove.6B.300d.txt", 'r', encoding='utf-8') as f:
         vector = np.array(values[1:], dtype='float32')
         glove[word] = vector
 
-data = pd.read_csv('D:\kiyonaga\SimLex_imagery\datasets\simLex.csv')
-lancaster_norms = pd.read_csv('D:\kiyonaga\SimLex_imagery\datasets\lancaster_norms.csv')
+data = pd.read_csv('C:\\Users\\HP\\Desktop\\SimLex_imagery\\datasets\\simLex.csv')
+lancaster_norms = pd.read_csv('C:\\Users\\HP\\Desktop\\SimLex_imagery\\datasets\\lancaster_norms.csv')
 
 lancaster_norms['Word'] = lancaster_norms['Word'].str.lower()
 sensory_columns = ['Word', 'Auditory.mean', 'Gustatory.mean', 'Haptic.mean','Interoceptive.mean', 'Olfactory.mean', 'Visual.mean']
 motor_columns = ['Word', 'Foot_leg.mean', 'Hand_arm.mean', 'Head.mean', 'Mouth.mean', 'Torso.mean']
+visual_columns = ['Word', 'Visual.mean']
+sensory_reduced_columns =  ['Word', 'Auditory.mean', 'Gustatory.mean', 'Haptic.mean', 'Olfactory.mean', 'Visual.mean']
+
 combined = list(set(sensory_columns + motor_columns))
 
 lancaster_motor = lancaster_norms[motor_columns]
 lancaster_sensory = lancaster_norms[sensory_columns]
 lancaster_norms = lancaster_norms[combined]
+lancaster_visual = lancaster_norms[visual_columns]
+lancaster_reduced = lancaster_norms[sensory_reduced_columns]
 
 nouns = data[data['POS'] == 'N'].index
 adjs = data[data['POS'] == 'A'].index
@@ -62,7 +67,11 @@ for i in range(11):
         word2_lanc_sensory = np.array(lancaster_sensory.loc[lancaster_sensory['Word'] == word2].drop('Word', axis=1).values[0])
         word1_lanc_sensorymotor = np.array(lancaster_norms.loc[lancaster_norms['Word'] == word1].drop('Word', axis=1).values[0])
         word2_lanc_sensorymotor = np.array(lancaster_norms.loc[lancaster_norms['Word'] == word2].drop('Word', axis=1).values[0])
-        
+        word1_lanc_visual = np.array(lancaster_visual.loc[lancaster_visual['Word'] == word1].drop('Word', axis=1).values[0])
+        word2_lanc_visual = np.array(lancaster_visual.loc[lancaster_visual['Word'] == word2].drop('Word', axis=1).values[0])
+        word1_lanc_reduced = np.array(lancaster_reduced.loc[lancaster_reduced['Word'] == word1].drop('Word', axis=1).values[0])
+        word2_lanc_reduced = np.array(lancaster_reduced.loc[lancaster_reduced['Word'] == word2].drop('Word', axis=1).values[0])
+
         current_experiment.append({
             'word1': word1,
             'word2': word2,
@@ -80,6 +89,8 @@ for i in range(11):
             'lanc_sensory_sim': distance.cosine(word1_lanc_sensory, word2_lanc_sensory).round(3),
             'lanc_sensorymotor_sim': distance.cosine(word1_lanc_sensorymotor, word2_lanc_sensorymotor).round(3),
             'glove_sim': distance.cosine(glove[word1], glove[word2]).round(3),
+            'lanc_visual_sim': abs(word1_lanc_visual - word2_lanc_visual)[0],
+            'lanc_reduced_sim': distance.cosine(word1_lanc_reduced, word2_lanc_reduced).round(3),
             'attentionCheck': 0
         })
     random_indices = np.random.choice(experiment_indices, number_of_duplicate_pairs, replace=False)
@@ -103,6 +114,8 @@ for i in range(11):
             'lanc_sensory_sim': distance.cosine(word1_lanc_sensory, word2_lanc_sensory).round(3),
             'lanc_sensorymotor_sim': distance.cosine(word1_lanc_sensorymotor, word2_lanc_sensorymotor).round(3),
             'glove_sim': distance.cosine(glove[word1], glove[word2]).round(3),
+            'lanc_visual_sim': abs(word1_lanc_visual - word2_lanc_visual)[0],
+            'lanc_reduced_sim': distance.cosine(word1_lanc_reduced, word2_lanc_reduced).round(3),
             'attentionCheck': 1
         })
     random_indices = np.random.choice(experiment_indices, number_of_force_checks, replace=False)
@@ -131,7 +144,7 @@ for i in range(11):
     experiment_word_pairs[f'List {i}'] = current_experiment
     print(i, len(current_experiment))
                 
-with open('D:\\kiyonaga\\SimLex_imagery\\datasets\\allTrials.js', 'w', encoding='utf-8') as f:
+with open('C:\\Users\\HP\\Desktop\\SimLex_imagery\\datasets\\allTrials.js', 'w', encoding='utf-8') as f:
     f.write('var simLexData = ')
     f.write(str(experiment_word_pairs))
     f.write(';')
